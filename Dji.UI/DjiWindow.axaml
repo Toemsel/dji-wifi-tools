@@ -1,0 +1,38 @@
+<Window DataContext="{Binding Source={x:Static viewModels:DjiContentViewModel.Instance}}"
+        xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Dji.UI;assembly=Dji.UI"
+        xmlns:viewModels="clr-namespace:Dji.UI.ViewModels;assembly=Dji.UI"
+        x:Class="Dji.UI.DjiWindow"
+        
+        Title="Dji.UI"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="PreferSystemChrome"
+        Background="{x:Null}"   
+        TransparencyLevelHint="AcrylicBlur"
+        WindowStartupLocation="CenterScreen" 
+        UseLayoutRounding="true"
+        WindowState="Normal"
+        Name="DjiUiWindow"
+        Width="1200" Height="800">
+
+  <Panel>
+    <ExperimentalAcrylicBorder IsHitTestVisible="False">
+      <ExperimentalAcrylicBorder.Material>
+        <ExperimentalAcrylicMaterial BackgroundSource="Digger"
+                                     TintColor="{DynamicResource SystemAltHighColor}"
+                                     TintOpacity="1"
+                                     FallbackColor="{DynamicResource AcrylicFallbackColor}"
+                                     MaterialOpacity="1" />
+      </ExperimentalAcrylicBorder.Material>
+    </ExperimentalAcrylicBorder>
+
+    <Panel Margin="{Binding #DjiUiWindow.OffScreenMargin}">
+      <!--<Panel Margin="{Binding #DjiUiWindow.WindowDecorationMargin}">-->
+        <local:DjiContent DataContext="{Binding}" />
+      <!--</Panel>-->
+    </Panel>
+  </Panel>
+  
+</Window>

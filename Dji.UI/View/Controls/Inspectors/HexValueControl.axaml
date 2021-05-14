@@ -1,0 +1,35 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:converters="using:Dji.UI.Converters"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Dji.UI.View.Controls.Inspectors.HexValueControl">
+
+  <UserControl.Resources>
+    <ResourceDictionary>
+      <converters:BoolToBrushConverter x:Key="BoolToBrushConverter" True="white" False="red" />
+    </ResourceDictionary>
+  </UserControl.Resources>
+  
+  <StackPanel Orientation="Vertical">
+    <TextBlock Classes="binary" Text="{Binding Value}" Foreground="{Binding IsValueUnique, Converter={StaticResource BoolToBrushConverter}}">
+      <ToolTip.Tip>
+        <TextBlock Text="{Binding ValueAsShort}" />
+      </ToolTip.Tip>
+    </TextBlock>
+    <StackPanel Classes="binary" Orientation="Horizontal">
+      <TextBlock Text="{Binding Bits[0]}" Foreground="{Binding IsBitUnique[0], Converter={StaticResource BoolToBrushConverter}}" />
+      <TextBlock Text="{Binding Bits[1]}" Foreground="{Binding IsBitUnique[1], Converter={StaticResource BoolToBrushConverter}}" />
+      <TextBlock Text="{Binding Bits[2]}" Foreground="{Binding IsBitUnique[2], Converter={StaticResource BoolToBrushConverter}}" />
+      <TextBlock Text="{Binding Bits[3]}" Foreground="{Binding IsBitUnique[3], Converter={StaticResource BoolToBrushConverter}}" />
+      <TextBlock Text="{Binding Bits[4]}" Foreground="{Binding IsBitUnique[4], Converter={StaticResource BoolToBrushConverter}}" />
+      <TextBlock Text="{Binding Bits[5]}" Foreground="{Binding IsBitUnique[5], Converter={StaticResource BoolToBrushConverter}}" />
+      <TextBlock Text="{Binding Bits[6]}" Foreground="{Binding IsBitUnique[6], Converter={StaticResource BoolToBrushConverter}}" />
+      <TextBlock Text="{Binding Bits[7]}" Foreground="{Binding IsBitUnique[7], Converter={StaticResource BoolToBrushConverter}}" />
+    </StackPanel>
+  </StackPanel>
+  
+</UserControl>

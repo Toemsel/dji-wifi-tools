@@ -1,0 +1,28 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Dji.UI.View.DataGrid.DjiNetworkPacketPoolInfo">
+
+  <UserControl.Styles>
+    <StyleInclude Source="avares://Dji.UI/Styles/PoolInfoStyle.axaml" />
+  </UserControl.Styles>
+
+  <Grid>
+    <Grid.Styles>
+      <Style Selector="TextBlock">
+        <Setter Property="Foreground" Value="White" />
+      </Style>
+    </Grid.Styles>
+    <CheckBox IsChecked="{Binding FreezeNetworkPackets, Mode=TwoWay}">Freeze result-set</CheckBox>
+    <ProgressBar IsVisible="{Binding IsFiltering}" IsIndeterminate="{Binding IsFiltering}" />
+    <StackPanel>
+      <TextBlock Text="{Binding NetworkPackets.Count}" />
+      <TextBlock Text="/" />
+      <TextBlock Text="{Binding CurrentPoolSize}" Classes="lastElem" />
+      <Image Source="/Assets/Filter.png" Classes="lastElem" />
+    </StackPanel>
+  </Grid>
+  
+</UserControl>

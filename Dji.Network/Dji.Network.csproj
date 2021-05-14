@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="PcapNet" Version="1.1.0" />
+    <PackageReference Include="ThomasLevesque.WeakEvent" Version="4.1.0" />
+    <PackageReference Include="SharpPcap" Version="5.4.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Dji.Network.Packet\Dji.Network.Packet.csproj" />
+  </ItemGroup>
+</Project>

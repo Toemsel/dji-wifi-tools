@@ -1,0 +1,23 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="using:Dji.UI.View.StatusBar"
+             xmlns:model="clr-namespace:Dji.UI.ViewModels.StatusBar;assembly=Dji.UI"
+             x:Class="Dji.UI.View.StatusBar.DjiStatusBar" MaxHeight="128">
+
+  <UserControl.DataContext>
+    <model:DjiStatusBarViewModel />
+  </UserControl.DataContext>
+
+  <StackPanel Orientation="Horizontal">
+    <StackPanel.Styles>
+      <Style Selector="local|StatusBarItem">
+        <Setter Property="Margin" Value="1, 0, 0, 0" />
+      </Style>
+    </StackPanel.Styles>
+
+    <local:StatusBarItem DataContext="{Binding DroneViewModel}" Image="/Assets/Drone.png" />
+
+  </StackPanel>
+</UserControl>

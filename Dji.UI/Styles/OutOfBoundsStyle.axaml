@@ -1,0 +1,25 @@
+<Styles xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:control="using:Dji.UI.View.DataGrid"
+             xmlns:sys="clr-namespace:System;assembly=netstandard"
+             x:Class="Dji.UI.Styles.OutOfBoundsStyle">
+
+  <Styles.Resources>
+    <Thickness x:Key="NegativeModifier">-12, 0, -12, 0</Thickness>
+    <Thickness x:Key="PositiveModifier">12, 0, 12, 0</Thickness>
+  </Styles.Resources>
+  
+  <Style Selector=":is(UserControl).outOfBounds">
+    <Setter Property="Margin" Value="{DynamicResource NegativeModifier}" />
+  </Style>
+
+  <Style Selector="StackPanel.notOutOfBounds">
+    <Setter Property="Margin" Value="{DynamicResource PositiveModifier}" />
+  </Style>
+
+  <Style Selector="WrapPanel.notOutOfBounds">
+    <Setter Property="Margin" Value="{DynamicResource PositiveModifier}" />
+  </Style>
+
+</Styles>

@@ -1,0 +1,18 @@
+<FilterControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"               
+             xmlns:model="clr-namespace:Dji.UI.ViewModels.Controls.Filters;assembly=Dji.UI"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Dji.UI.View.Controls.Filters.HexFilter">
+
+  <FilterControl.DataContext>
+    <model:HexFilterViewModel />
+  </FilterControl.DataContext>
+  
+  <StackPanel Orientation="Horizontal">
+    <Image Classes="filterElement" Source="/Assets/Hex.png" />
+    <TextBox Classes="filterElement extra-large" Watermark="0xAB 0x01 0x1C" Text="{Binding Hex, Mode=TwoWay}" />
+  </StackPanel>
+  
+</FilterControl>

@@ -1,0 +1,28 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:model="using:Dji.UI.ViewModels.Controls.Filters"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Dji.UI.View.Controls.Filters.IpAddressFilter">
+
+  <UserControl.DataContext>
+    <model:IpAddressFilterViewModel />
+  </UserControl.DataContext>
+  
+  <StackPanel Orientation="Horizontal">
+    <ToggleButton Classes="filterElement" IsChecked="{Binding Drone}">
+      <StackPanel Orientation="Horizontal">
+        <Image Classes="filterElement" Source="/Assets/Drone.png" />
+        <TextBlock Classes="filterElement" Text="Drone" />
+      </StackPanel>
+    </ToggleButton>
+    <ToggleButton IsChecked="{Binding Operator}">
+      <StackPanel Orientation="Horizontal">
+        <Image Classes="filterElement" Source="/Assets/Operator.png" />
+        <TextBlock Classes="filterElement" Text="Operator" />
+      </StackPanel>
+    </ToggleButton>
+  </StackPanel>
+  
+</UserControl>

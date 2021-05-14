@@ -1,0 +1,119 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+        xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+        xmlns:converters="using:Dji.UI.Converters"
+        mc:Ignorable="d" d:DesignWidth="250" d:DesignHeight="110"
+        Width="250" Height="110"
+        x:Class="Dji.UI.DjiSimulationWindow"
+        Title="{Binding SimulationName}"
+        
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="PreferSystemChrome"
+        Background="{x:Null}"
+        TransparencyLevelHint="AcrylicBlur"
+        WindowStartupLocation="CenterScreen"
+        UseLayoutRounding="true"
+        WindowState="Normal"
+        Name="DjiSimulationWindow">
+
+  <Window.Resources>
+    <ResourceDictionary>
+      <converters:SimulationStateToBoolConverter x:Key="SimulationStateToBoolConverter" />
+      <converters:EnumToStringConverter x:Key="EnumToStringConverter" />
+    </ResourceDictionary>
+  </Window.Resources>
+
+  <Panel>
+    <ExperimentalAcrylicBorder IsHitTestVisible="False">
+      <ExperimentalAcrylicBorder.Material>
+        <ExperimentalAcrylicMaterial BackgroundSource="Digger"
+                                     TintColor="{DynamicResource SystemAltHighColor}"
+                                     TintOpacity="1"
+                                     FallbackColor="{DynamicResource AcrylicFallbackColor}"
+                                     MaterialOpacity="1" />
+      </ExperimentalAcrylicBorder.Material>
+    </ExperimentalAcrylicBorder>
+
+    <Panel Margin="{Binding #DjiSimulationWindow.OffScreenMargin}">
+      <Border BorderThickness="1" BorderBrush="Red"
+              HorizontalAlignment="Stretch"
+              VerticalAlignment="Stretch">
+        <TextBlock Margin="8, 5, 5, 5" Text="{Binding SimulationName}" IsHitTestVisible="False" />
+      </Border>
+
+      <Panel Margin="{Binding #DjiSimulationWindow.WindowDecorationMargin}">
+        <Border BorderThickness="0, 1, 0, 0" BorderBrush="Red">
+          <Grid>
+
+            <ProgressBar IsVisible="{Binding IsLoading}" IsIndeterminate="True"
+                         HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+            <TextBlock Text="Invalid capture file" IsVisible="{Binding !WasLoadingSuccessful}"
+                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+            <StackPanel Orientation="Horizontal"
+                        IsVisible="{Binding IsSimulationReady}"
+                        IsEnabled="{Binding !IsSimulationDone}"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+              <StackPanel.Styles>
+                <Style Selector="Button">
+                  <Setter Property="Width" Value="48" />
+                  <Setter Property="Height" Value="48" />
+                  <Setter Property="Margin" Value="5, 0, 0, 0" />
+                </Style>
+                <Style Selector="Button /template/ ContentPresenter#PART_ContentPresenter">
+                  <Setter Property="CornerRadius" Value="100" />
+                </Style>
+                <Style Selector="Image">
+                  <Setter Property="Width" Value="36" />
+                  <Setter Property="Height" Value="36" />
+                  <Setter Property="VerticalAlignment" Value="Center" />
+                  <Setter Property="HorizontalAlignment" Value="Center" />
+                </Style>
+              </StackPanel.Styles>
+
+              <Button Command="{Binding PauseContinueSimulation}">
+                <Grid>
+                  <Image IsVisible="False" x:Name="iPause" Source="/Assets/Pause.png" />
+                  <Image IsVisible="True" x:Name="iPlay" Source="/Assets/Play.png" />
+                </Grid>
+
+                <i:Interaction.Behaviors>
+                  <ia:DataTriggerBehavior Binding="{Binding SimulationState, Converter={StaticResource EnumToStringConverter}}" ComparisonCondition="Equal" Value="Simulate">
+                    <ia:ChangePropertyAction TargetObject="{Binding #iPlay}" PropertyName="IsVisible" Value="false" />
+                  </ia:DataTriggerBehavior>
+                  <ia:DataTriggerBehavior Binding="{Binding SimulationState, Converter={StaticResource EnumToStringConverter}}" ComparisonCondition="Equal" Value="Pause">
+                    <ia:ChangePropertyAction TargetObject="{Binding #iPlay}" PropertyName="IsVisible" Value="true" />
+                  </ia:DataTriggerBehavior>
+                  <ia:DataTriggerBehavior Binding="{Binding SimulationState, Converter={StaticResource EnumToStringConverter}}" ComparisonCondition="Equal" Value="Simulate">
+                    <ia:ChangePropertyAction TargetObject="{Binding #iPause}" PropertyName="IsVisible" Value="true" />
+                  </ia:DataTriggerBehavior>
+                  <ia:DataTriggerBehavior Binding="{Binding SimulationState, Converter={StaticResource EnumToStringConverter}}" ComparisonCondition="Equal" Value="Pause">
+                    <ia:ChangePropertyAction TargetObject="{Binding #iPause}" PropertyName="IsVisible" Value="false" />
+                  </ia:DataTriggerBehavior>
+                </i:Interaction.Behaviors>
+              </Button>
+
+              <Button IsEnabled="{Binding CanMultiOrSingleStep}"
+                      Command="{Binding NextStepSimulation}">
+                <Image Source="/Assets/PlayOnce.png" />
+              </Button>
+
+              <Button IsEnabled="{Binding CanMultiOrSingleStep}"
+                      Command="{Binding CompleteSimulation}">
+                <Image Source="/Assets/PlayAll.png" />
+              </Button>
+
+            </StackPanel>
+
+          </Grid>
+        </Border>
+      </Panel>
+    </Panel>
+  </Panel>
+
+</Window>

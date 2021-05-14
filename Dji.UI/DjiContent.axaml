@@ -1,0 +1,61 @@
+<UserControl  xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:converters="using:Dji.UI.Converters"
+             xmlns:inspectors="using:Dji.UI.View.Controls.Inspectors"
+             xmlns:statusBar="using:Dji.UI.View.StatusBar"
+             xmlns:docks="using:Dji.UI.View.Docks"
+             xmlns:viewModel="using:Dji.UI.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="480"
+             x:Class="Dji.UI.DjiContent">
+
+  <Grid>
+    <DockPanel LastChildFill="false">
+
+      <Menu DockPanel.Dock="Top" HorizontalAlignment="Left">
+        <MenuItem Header="Menu">
+          <MenuItem Header="Simulation" Command="{Binding OpenSimulation}">
+            <MenuItem.Icon>
+              <Image Source="/Assets/Simulation.png" />
+            </MenuItem.Icon>
+          </MenuItem>
+          <MenuItem Header="REC">
+            <MenuItem.Icon>
+              <Image Source="/Assets/Recording.png" />
+            </MenuItem.Icon>
+            <MenuItem Header="Start Recording" IsEnabled="{Binding !IsRecording}" Command="{Binding StartRecording}" />
+            <MenuItem Header="Stop Recording" IsEnabled="{Binding IsRecording}" Command="{Binding StopRecording}" />
+          </MenuItem>
+        </MenuItem>
+      </Menu>
+
+      <Panel DockPanel.Dock="Bottom">
+        <TabControl>
+          <TabItem Header="Dji" IsSelected="{Binding #knownTrafficDock.IsSelected, Mode=TwoWay}">
+            <docks:DjiTrafficDock x:Name="knownTrafficDock" Classes="outOfBounds" />
+          </TabItem>
+          <TabItem Header="Empty" IsSelected="{Binding #emptyTrafficDock.IsSelected, Mode=TwoWay}">
+            <docks:DjiEmptyTrafficDock x:Name="emptyTrafficDock" Classes="outOfBounds" />
+          </TabItem>
+          <TabItem Header="UDP" IsSelected="{Binding #udpTrafficDock.IsSelected, Mode=TwoWay}">
+            <docks:UdpTrafficDock x:Name="udpTrafficDock" Classes="outOfBounds" />
+          </TabItem>
+        </TabControl>
+      </Panel>
+
+    </DockPanel>
+
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Top">
+
+      <statusBar:DjiStatusBar  HorizontalAlignment="Center" />
+
+      <statusBar:RecordingIndicator
+        IsVisible="{Binding IsRecording}"
+        Width="48" Height="48"
+        Margin="212, 0, 0, 0" />
+
+    </Grid>
+  </Grid>
+
+</UserControl>

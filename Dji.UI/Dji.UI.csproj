@@ -1,0 +1,66 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ApplicationIcon>Drone.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="0.10.2" />
+    <PackageReference Include="Avalonia.Controls.DataGrid" Version="0.10.2" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.10.2" />
+    <PackageReference Include="Avalonia.Diagnostics" Version="0.10.2" />
+    <PackageReference Include="Avalonia.Xaml.Behaviors" Version="0.10.2" />
+    <PackageReference Include="Avalonia.Xaml.Interactions" Version="0.10.2" />
+    <PackageReference Include="Avalonia.Xaml.Interactivity" Version="0.10.2" />
+    <PackageReference Include="LinqKit" Version="1.1.24" />
+    <PackageReference Include="ReactiveUI" Version="13.2.18" />
+    <PackageReference Include="TextCopy" Version="4.3.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Dji.Network\Dji.Network.csproj" />
+    <ProjectReference Include="..\Dji.Network.Packet\Dji.Network.Packet.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="DjiContent.axaml.cs">
+      <DependentUpon>DjiContent.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="DjiWindow.axaml.cs">
+      <DependentUpon>DjiWindow.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="View\Controls\Filters\NumericFilter.axaml.cs">
+      <DependentUpon>NumericFilter.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="View\Docks\DjiEmptyTrafficDock.axaml.cs">
+      <DependentUpon>DjiEmptyTrafficDock.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="View\Docks\UdpTrafficDock.axaml.cs">
+      <DependentUpon>UdpTrafficDock.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="View\Docks\DjiTrafficDock.axaml.cs">
+      <DependentUpon>DjiTrafficDock.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="View\StatusBar\StatusBarItem.axaml.cs">
+      <DependentUpon>StatusBarItem.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="View\StatusBar\DjiStatusBar.axaml.cs">
+      <DependentUpon>DjiStatusBar.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <AvaloniaResource Include="Assets\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <AvaloniaXaml Remove="Styles\FilterControlStyle.axaml" />
+    <AvaloniaXaml Remove="Styles\OutOfBoundsStyle.axaml" />
+    <AvaloniaXaml Remove="Styles\PoolInfoStyle.axaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Assets\Drone.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <AvaloniaResource Include="Styles\FilterControlStyle.axaml" />
+    <AvaloniaResource Include="Styles\OutOfBoundsStyle.axaml" />
+    <AvaloniaResource Include="Styles\PoolInfoStyle.axaml" />
+  </ItemGroup>
+</Project>

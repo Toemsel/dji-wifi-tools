@@ -1,0 +1,69 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:model="using:Dji.UI.ViewModels"
+        xmlns:controls="using:Dji.UI.View.Controls.Inspectors"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="Dji.UI.DjiHexComparisonWindow"
+        Width="1225" Height="400" CanResize="True"
+        Title="{Binding Title}"
+        
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="PreferSystemChrome"
+        Background="{x:Null}"
+        TransparencyLevelHint="AcrylicBlur"
+        WindowStartupLocation="CenterScreen"
+        UseLayoutRounding="true"
+        WindowState="Normal"
+        Name="DjiHexComparisonWindow">
+
+  <Window.DataContext>
+    <model:DjiHexComparisonWindowViewModel />
+  </Window.DataContext>
+
+  <Panel>
+    <ExperimentalAcrylicBorder IsHitTestVisible="False">
+      <ExperimentalAcrylicBorder.Material>
+        <ExperimentalAcrylicMaterial BackgroundSource="Digger"
+                                     TintColor="{DynamicResource SystemAltHighColor}"
+                                     TintOpacity="1"
+                                     FallbackColor="{DynamicResource AcrylicFallbackColor}"
+                                     MaterialOpacity="1" />
+      </ExperimentalAcrylicBorder.Material>
+    </ExperimentalAcrylicBorder>
+
+    <Panel Margin="{Binding #DjiHexComparisonWindow.OffScreenMargin}">
+      <Border BorderThickness="1" BorderBrush="Blue"
+              HorizontalAlignment="Stretch"
+              VerticalAlignment="Stretch">
+        <TextBlock Margin="8, 5, 5, 5" Text="{Binding Title}" IsHitTestVisible="False" />
+      </Border>
+
+      <Panel Margin="{Binding #DjiHexComparisonWindow.WindowDecorationMargin}">
+        <Border BorderThickness="0, 1, 0, 0" BorderBrush="Blue">
+          <Grid Margin="5">
+
+            <ScrollViewer>
+              <ItemsControl Items="{Binding HexControlViewModels}">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate>
+                    <Grid Margin="10">
+                      <Button Command="{Binding #DjiHexComparisonWindow.DataContext.Remove}" 
+                              CommandParameter="{Binding}" VerticalAlignment="Top">
+                        <TextBlock Text="{Binding Title}"></TextBlock>
+                      </Button>
+                      <controls:HexControl DataContext="{Binding}" />
+                    </Grid>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </ScrollViewer>
+            
+          </Grid>
+        </Border>
+      </Panel>
+    </Panel>
+  </Panel>
+  
+</Window>

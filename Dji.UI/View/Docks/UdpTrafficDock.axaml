@@ -1,0 +1,91 @@
+<NetworkTrafficDock xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:filters="using:Dji.UI.View.Controls.Filters"
+             xmlns:datagrid="using:Dji.UI.View.DataGrid"
+             xmlns:filterViewModels="using:Dji.UI.ViewModels.Controls.Filters"
+             xmlns:converters="using:Dji.UI.Converters"
+             xmlns:model="using:Dji.UI.ViewModels.Docks"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Dji.UI.View.Docks.UdpTrafficDock">
+
+  <NetworkTrafficDock.DataContext>
+    <model:UdpTrafficDockViewModel />
+  </NetworkTrafficDock.DataContext>
+  
+  <NetworkTrafficDock.Resources>
+    <ResourceDictionary>
+      <converters:MultibindingToTupleConverter x:Key="MultibindingToTupleConverter" />
+    </ResourceDictionary>
+  </NetworkTrafficDock.Resources>
+
+  <StackPanel Orientation="Vertical">
+
+    <WrapPanel Orientation="Horizontal" Classes="notOutOfBounds">
+
+      <filters:NumericFilter DjiNetworkPacketPool="{Binding $parent[UserControl].DataContext}"
+                             Description="Packet #" Image="/Assets/Id.png">
+        <filters:NumericFilter.DataContext>
+          <filterViewModels:NetworkPacketIdFilterViewModel />
+        </filters:NumericFilter.DataContext>
+      </filters:NumericFilter>
+
+      <filters:IdRangeFilter DjiNetworkPacketPool="{Binding $parent[UserControl].DataContext}" />
+
+      <filters:NumericFilter DjiNetworkPacketPool="{Binding $parent[UserControl].DataContext}"
+                             Description="Data" Image="/Assets/Length.png">
+        <filters:NumericFilter.DataContext>
+          <filterViewModels:UdpDataLengthFilterViewModel />
+        </filters:NumericFilter.DataContext>
+      </filters:NumericFilter>
+
+      <filters:NumericFilter DjiNetworkPacketPool="{Binding $parent[UserControl].DataContext}"
+                             Description="Payload" Image="/Assets/Length.png">
+        <filters:NumericFilter.DataContext>
+          <filterViewModels:UdpPayloadLengthFilterViewModel />
+        </filters:NumericFilter.DataContext>
+      </filters:NumericFilter>
+
+      <filters:HexFilter DjiNetworkPacketPool="{Binding $parent[UserControl].DataContext}" />
+
+    </WrapPanel>
+
+    <DataGrid x:Name="grid" Items="{Binding NetworkPackets, Mode=OneWay}" Height="500"
+          GridLinesVisibility="All"
+          CanUserReorderColumns="True"
+          SelectionMode="Single"
+          IsReadOnly="True">
+      <DataGrid.Columns>
+        <DataGridTextColumn Header="#" Binding="{Binding Id}" Width="80" />
+        <DataGridTextColumn Header="f-size" Binding="{Binding UdpPacket.Data.Length}" Width="80" />
+        <DataGridTextColumn Header="p-size" Binding="{Binding UdpPacket.Payload.Length}" Width="80" />
+
+        <DataGridTextColumn Header="source-ip" Binding="{Binding UdpPacket.SourceIpAddress, Mode=OneWay}" Width="150" />
+        <DataGridTextColumn Header="destination-ip" Binding="{Binding UdpPacket.DestinationIpAddress, Mode=OneWay}" Width="150" />
+        <DataGridTextColumn Header="time" Binding="{Binding UnixTime}" Width="200" />
+      </DataGrid.Columns>
+      <DataGrid.ContextMenu>
+        <ContextMenu Items="{Binding ContextMenuEntries}">
+          <ContextMenu.Styles>
+            <Style Selector="MenuItem">
+              <Setter Property="IsEnabled" Value="{Binding #grid.SelectedItem, Converter={x:Static ObjectConverters.IsNotNull}}" />
+              <Setter Property="Header" Value="{Binding Title}" />
+              <Setter Property="Command" Value="{Binding $parent[DataGrid].DataContext.ContextMenuInteractionCommand}" />
+              <Setter Property="CommandParameter">
+                <MultiBinding Converter="{StaticResource MultibindingToTupleConverter}">
+                  <Binding ElementName="grid" Path="SelectedItem" />
+                  <Binding />
+                </MultiBinding>
+              </Setter>
+            </Style>
+          </ContextMenu.Styles>
+        </ContextMenu>
+      </DataGrid.ContextMenu>
+    </DataGrid>
+
+    <datagrid:DjiNetworkPacketPoolInfo />
+
+  </StackPanel>
+
+</NetworkTrafficDock>

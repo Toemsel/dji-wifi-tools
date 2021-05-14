@@ -1,0 +1,27 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Dji.Dissector.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="Dji.Dissector.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Dji.Dissector">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+  <StackPanel Orientation="Vertical">
+    <TextBox Text="{Binding Raw, Mode=TwoWay}" Height="200" AcceptsReturn="True" TextWrapping="Wrap" />
+    <StackPanel Orientation="Horizontal">
+      <TextBlock Text="CmdSet Desc" />
+      <TextBox Text="{Binding CmdSetDesc, Mode=OneWayToSource}" />
+      <TextBlock Text="CmdSet" />
+      <TextBox Text="{Binding CmdSet, Mode=OneWayToSource}" />
+      <Button Command="{Binding Parse}">Parse</Button>
+    </StackPanel>
+    <TextBox Text="{Binding Output, Mode=TwoWay}" Height="400" AcceptsReturn="True" TextWrapping="Wrap" />
+  </StackPanel>
+  
+</Window>

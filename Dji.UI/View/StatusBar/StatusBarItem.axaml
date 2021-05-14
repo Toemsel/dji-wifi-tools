@@ -1,0 +1,72 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:Dji.UI.View.StatusBar;assembly=Dji.UI"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+             x:Class="Dji.UI.View.StatusBar.StatusBarItem" Width="120">
+
+  <UserControl.Template>
+    <ControlTemplate TargetType="{x:Type UserControl}">
+
+      <Border Background="Transparent" BorderThickness="3, 0, 3, 3" CornerRadius="0, 0, 10, 10">
+        <i:Interaction.Behaviors>
+          <ia:DataTriggerBehavior Binding="{Binding Status}" ComparisonCondition="Equal" Value="true">
+            <ia:ChangePropertyAction TargetObject="{Binding $parent[Border]}" PropertyName="BorderBrush" Value="{DynamicResource SystemAccentColor}"/>
+          </ia:DataTriggerBehavior>
+          <ia:DataTriggerBehavior Binding="{Binding Status}" ComparisonCondition="Equal" Value="false">
+            <ia:ChangePropertyAction TargetObject="{Binding $parent[Border]}" PropertyName="BorderBrush" Value="Gray"/>
+          </ia:DataTriggerBehavior>
+        </i:Interaction.Behaviors>
+
+        <StackPanel Orientation="Vertical" Margin="10">
+          <StackPanel.Styles>
+            <Style Selector="TextBlock">
+              <Setter Property="HorizontalAlignment" Value="Center" />
+              <Setter Property="Margin" Value="0, 10, 0, 0" />
+              <Setter Property="FontSize" Value="10" />
+            </Style>
+          </StackPanel.Styles>
+
+          <Image Focusable="True" Source="{Binding $parent[local:StatusBarItem].Image}" Width="42" Height="42">
+            <i:Interaction.Behaviors>
+              <ia:EventTriggerBehavior EventName="PointerPressed" SourceObject="{Binding $parent[Image]}">
+                <ia:CallMethodAction TargetObject="{Binding}" MethodName="Toggle"/>
+              </ia:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
+            <i:Interaction.Behaviors>
+              <ia:DataTriggerBehavior Binding="{Binding Status}" ComparisonCondition="Equal" Value="false">
+                <ia:ChangePropertyAction TargetObject="{Binding $parent}" PropertyName="Opacity" Value="0.5"/>
+              </ia:DataTriggerBehavior>
+              <ia:DataTriggerBehavior Binding="{Binding Status}" ComparisonCondition="Equal" Value="true">
+                <ia:ChangePropertyAction TargetObject="{Binding $parent}" PropertyName="Opacity" Value="1"/>
+              </ia:DataTriggerBehavior>
+            </i:Interaction.Behaviors>
+          </Image>
+
+          <ContentPresenter Name="content" Content="{Binding $parent[UserControl].Content}" Margin="0, 10, 0, 0" />
+          <i:Interaction.Behaviors>
+            <ia:DataTriggerBehavior Binding="{Binding Status}" ComparisonCondition="Equal" Value="true">
+              <ia:ChangePropertyAction TargetObject="{Binding #content}" PropertyName="IsEnabled" Value="false"/>
+            </ia:DataTriggerBehavior>
+            <ia:DataTriggerBehavior Binding="{Binding Status}" ComparisonCondition="Equal" Value="false">
+              <ia:ChangePropertyAction TargetObject="{Binding #content}" PropertyName="IsEnabled" Value="true"/>
+            </ia:DataTriggerBehavior>
+          </i:Interaction.Behaviors>
+
+
+          <TextBlock Text="{Binding Description}" FontSize="8" IsVisible="False">
+            <i:Interaction.Behaviors>
+              <ia:DataTriggerBehavior Binding="{Binding Description}" ComparisonCondition="NotEqual" Value="">
+                <ia:ChangePropertyAction TargetObject="{Binding $parent[TextBlock]}" PropertyName="IsVisible" Value="true"/>
+              </ia:DataTriggerBehavior>
+            </i:Interaction.Behaviors>
+          </TextBlock>
+        </StackPanel>
+
+      </Border>
+
+    </ControlTemplate>
+  </UserControl.Template>
+
+</UserControl>

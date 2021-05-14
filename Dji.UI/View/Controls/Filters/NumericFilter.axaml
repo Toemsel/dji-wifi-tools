@@ -1,0 +1,16 @@
+<FilterControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+             xmlns:model="clr-namespace:Dji.UI.ViewModels.Controls.Filters;assembly=Dji.UI"
+             x:Class="Dji.UI.View.Controls.Filters.NumericFilter"
+             Name="numericFilter">
+
+  <StackPanel Orientation="Horizontal">
+    <Image Classes="filterElement" Source="{Binding #numericFilter.Image}" />
+    <TextBox Classes="filterElement small" Text="{Binding Text}" Watermark="{Binding #numericFilter.Description}" />
+  </StackPanel>
+
+</FilterControl>

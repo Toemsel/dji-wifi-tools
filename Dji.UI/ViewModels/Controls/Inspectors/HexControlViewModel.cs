@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using Dji.Network.Packet;
 using ReactiveUI;
 using System;
-using Dji.Network.Packet;
 
 namespace Dji.UI.ViewModels.Controls.Inspectors
 {

@@ -27,8 +27,8 @@ This repo contains a set of tools to facilitate the analysis of the Dji wifi com
 
 - [x] Mavic Pro 1
 - [ ] Phantom 2
-- [x] Phantom 3
-- [x] Phantom 4
+- [x] Phantom 3 (untested)
+- [x] Phantom 4 (untested)
 - [ ] Naza M
 - [ ] Naza M V2
 - [ ] Phanto

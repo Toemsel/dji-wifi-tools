@@ -1,6 +1,6 @@
 # dji-wifi-tools
 
-This repo contains a set of tools to facilitate the analysis of the wireless Dji communication protocol. Meant for drone enthusiasts, scientific or educational purposes only.
+This repo contains a set of tools to facilitate the analysis of the Dji wifi communication protocol. Meant for drone enthusiasts, scientific or educational purposes only.
 
 # Features
 

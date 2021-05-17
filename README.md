@@ -33,7 +33,7 @@ This repo contains a set of tools to facilitate the analysis of the Dji wifi com
 - [ ] Naza M V2
 - [ ] Phanto
 
-# Platforms
+# Supported Platforms
 
 The application runs on all [relevant platforms](https://github.com/dotnet/core/blob/main/release-notes/5.0/5.0-supported-os.md). It has been tested against Windows and Linux. System requirements x86/ARM:
 
@@ -48,6 +48,10 @@ The application runs on all [relevant platforms](https://github.com/dotnet/core/
 1. `dotnet restore`
 2. `dotnet build`
 3. `dotnet run --project Dji.Ui`
+
+# Usage Instructions
+
+If you do require any usage instructions, maybe this tool isn't meant for you.
 
 # Support
 

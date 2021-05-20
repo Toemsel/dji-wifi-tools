@@ -1924,6 +1924,12 @@ namespace Dji.Network.Packet.DjiPackets.Base
 
         // [11] https://github.com/o-gs/dji-firmware-tools/blob/05e24cb12803943f63ac5ae1574e517e59a2dd0a/comm_dissector/wireshark/dji-dumlv1-proto.lua#L494
         // https://github.com/o-gs/dji-firmware-tools/blob/05e24cb12803943f63ac5ae1574e517e59a2dd0a/comm_dissector/wireshark/dji-dumlv1-proto.lua#L486
+
+        // error-correction
+        [Cmd(3849, 0x11, "0x11", 0x14, "0x14")]
+        UNKNOWN_UNKNOWN_1 = 0x1114,
+        [Cmd(3849, 0x11, "0x11", 0x08, "0x08")]
+        UNKNOWN_UNKNOWN_2 = 0x1108,
     }
 
     public enum Participant

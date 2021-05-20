@@ -59,6 +59,8 @@ namespace Dji.Network.Packet.DjiPackets.Base
             0x7bc7, 0x6a4e, 0x58d5, 0x495c, 0x3de3, 0x2c6a, 0x1ef1, 0x0f78
         };
 
+        public static bool Crc8(byte a, byte b, byte crc) => Crc8(a, b) == crc;
+
         public static bool Crc8(byte[] data, byte crc) => Crc8(data) == crc;
 
         public static bool Crc16(byte[] data, byte[] crc)
@@ -66,6 +68,8 @@ namespace Dji.Network.Packet.DjiPackets.Base
             if (crc == null || crc.Length != 2) return false;
             return Crc16(data) == BitConverter.ToUInt16(new byte[] { crc[0], crc[1] });
         }
+
+        public static byte Crc8(byte a, byte b) => (byte)(a ^ b ^ 0x88);
 
         public static byte Crc8(byte[] data)
         {

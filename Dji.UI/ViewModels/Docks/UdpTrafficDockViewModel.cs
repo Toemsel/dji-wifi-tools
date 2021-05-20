@@ -1,4 +1,6 @@
-﻿namespace Dji.UI.ViewModels.Docks
+﻿using Dji.Network.Packet;
+
+namespace Dji.UI.ViewModels.Docks
 {
     public class UdpTrafficDockViewModel : TrafficDockViewModel
     {

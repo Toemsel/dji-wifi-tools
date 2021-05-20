@@ -22,16 +22,8 @@ namespace Dji.Network
             DjiPacket djiPacket = (DjiPacket)Activator.CreateInstance(packetType);
 
             if (djiPacket.Set(networkPacket.Payload))
-            {
-                var djiNetworkPacketType = typeof(DjiNetworkPacket<>).MakeGenericType(packetType);
-                dynamic djiNetworkPacket = Activator.CreateInstance(djiNetworkPacketType, new object[] { networkPacket, djiPacket });
-
-                Resolve(djiNetworkPacket);
-            }
-            else
-            {
-                Trace.TraceError($"Cmd-packet has invalid structure or values: {networkPacket.Payload.ToHexString(false, false)}");
-            }
+                Resolve(networkPacket.Wrap(djiPacket, packetType));
+            else Trace.TraceError($"{nameof(DjiDronePacketResolver)} - Unprocessable packet {packetType.Name}: {networkPacket.Payload.ToHexString(false, false)}");
         }
     }
 }

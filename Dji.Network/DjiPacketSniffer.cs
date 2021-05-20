@@ -105,8 +105,19 @@ namespace Dji.Network
                     // need to wrap the bytes into a UDP-Packet and
                     // extract the source and destination ip-address
 
-                    // if we the packet isn't for the drone, skip
-                    if (destinationIpAddress != DRONE_IP_ADDRESS) return;
+                    // if we the packet isn't drone-related, skip
+                    if (destinationIpAddress != DRONE_IP_ADDRESS &&
+                        sourceIpAddress != DRONE_IP_ADDRESS) return;
+
+                    // the very first packet could be either from the drone
+                    // or from the operator. Thus, if it is from the drone,
+                    // we require to switch SRC and DEST, as the following
+                    // code expects an operator as a SRC address.
+                    if(sourceIpAddress == DRONE_IP_ADDRESS)
+                    {
+                        sourceIpAddress = destinationIpAddress;
+                        destinationIpAddress = DRONE_IP_ADDRESS;
+                    }
 
                     IPAddress sourceIpAddr = IPAddress.Parse(sourceIpAddress);
 
@@ -130,7 +141,7 @@ namespace Dji.Network
                     // 5. stop listening on all other interfaces
                     var networkInformation = new DjiNetworkInformation(sourceIpAddress, DRONE_IP_ADDRESS, NetworkStatus.Connected);
 
-                    Trace.TraceInformation($"Interface {capture.Device?.Name ?? "Simulation"} detected possible drone {sourceIpAddress}");
+                    Trace.TraceInformation($"Interface {capture.Device?.Name ?? "Simulation"} detected possible drone interaction {sourceIpAddress} -> {destinationIpAddress}");
 
                     _operatorIpAddress = networkInformation.OperatorIpAddress;
                     _snifferState = SnifferState.PacketSniffing;

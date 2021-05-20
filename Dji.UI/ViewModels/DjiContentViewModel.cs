@@ -29,6 +29,7 @@ namespace Dji.UI.ViewModels
             // connect the Dji network-related parts
             _packetSniffer.NetworkPacketReceived += (obj, data) => _packetWriter.Write(data);
             _packetSniffer.NetworkPacketReceived += (obj, data) => NetworkPacketReceived(data);
+
             _operatorPacketResolver.AddDjiPacketListener(packet => _packetWriter.Write(packet));
             _dronePacketResolver.AddDjiPacketListener(packet => _packetWriter.Write(packet));
 

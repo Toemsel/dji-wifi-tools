@@ -25,7 +25,6 @@ namespace Dji.Network.Packet.DjiPackets.Base
             set => SetValue(ref _session, value);
         }
         #endregion
-
         protected void SetValue<T>(ref T property, T value)
         {
             // no need to drop any cache if the value remains the same.
@@ -47,7 +46,7 @@ namespace Dji.Network.Packet.DjiPackets.Base
         public bool Set(byte[] data, int? delimiter = null)
         {
             // not enough data available for the wifi-header
-            if (data.Length < 0x0F)
+            if (!delimiter.HasValue && data.Length < 0x0F)
                 return false;
 
             Size = GetPacketSize(data[0..2]);
@@ -104,7 +103,7 @@ namespace Dji.Network.Packet.DjiPackets.Base
 
             byte leftParam = (byte)(data[0x0C] << 1);
             byte rightParam = (byte)(data[0x0E] + data[0x0F]);
-
+            
             return rightParam == 0x00 ? (byte)0x14 : (byte)(0x1E + leftParam);
         }
     }

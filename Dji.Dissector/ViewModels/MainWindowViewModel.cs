@@ -1,5 +1,8 @@
+using Dji.Network.Packet.DjiPackets;
+using Dji.Network.Packet.Extensions;
 using ReactiveUI;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -38,40 +41,26 @@ namespace Dji.Dissector.ViewModels
 
         private void Parse()
         {
-            Output = string.Empty;
+            if (string.IsNullOrEmpty(Raw)) return;
 
-            if (string.IsNullOrWhiteSpace(Raw)) return;
-            if (string.IsNullOrWhiteSpace(CmdSet)) return;
-            if (string.IsNullOrWhiteSpace(CmdSetDesc)) return;
+            byte[] data = Raw.FromHexString();
 
-            string[] lines = Raw.Split(',');
-
-            StringBuilder result = new StringBuilder();
-
-            foreach(string line in lines)
+            for(int i = 0; i < data.Length; i++)
             {
-                if (!line.Contains('[') || !line.Contains(']')) continue;
-                if (!line.Contains('\'')) continue;
-
-                int identifierStart = line.IndexOf('[');
-                int identifierEnd = line.IndexOf(']');
-                int descriptionStart = line.IndexOf('\'');
-                int descriptionEnd = line.LastIndexOf('\'');
-
-                string identifier = line.Substring(identifierStart + 1, identifierEnd - identifierStart - 1);
-                byte cmdData = ToByte(identifier);
-                byte cmdSetData = ToByte(CmdSet);
-                ushort data = BitConverter.ToUInt16(new byte[] { cmdData, cmdSetData });
-
-                string description = line.Substring(descriptionStart + 1, descriptionEnd - descriptionStart - 1);
-                string cmdEnumName = ExtractEnumName(description);
-                string cmdSetEnumName = ExtractEnumName(CmdSetDesc);
-
-                result.AppendLine($"[Cmd({data}, {ToHexString(cmdSetData)}, \"{CmdSetDesc}\", {ToHexString(cmdData)}, \"{description}\")]");
-                result.AppendLine($"{cmdSetEnumName}_{cmdEnumName} = 0x{ToHexString(new byte[] { cmdSetData, cmdData }, false, false)},");
+                if(data[i] == 0x55)
+                {
+                    try
+                    {
+                        DjiCmdPacket cmd = new DjiCmdPacket();
+                        if (cmd.Set(data, i))
+                        {
+                            Trace.TraceInformation($"Cmd @{i} E{i + cmd.DumlSize}: {data[i..(i + cmd.DumlSize)].ToHexString(false, false)}");
+                            Trace.TraceInformation($"Wifi-Header: {data[0..i].ToHexString(false, false)}");
+                        }
+                    }
+                    catch { }
+                }
             }
-
-            Output = result.ToString();
         }
 
         private byte ToByte(string identifer)

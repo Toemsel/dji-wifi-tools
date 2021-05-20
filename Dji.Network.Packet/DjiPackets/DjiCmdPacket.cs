@@ -124,8 +124,8 @@ namespace Dji.Network.Packet.DjiPackets
             {
                 Trace.TraceWarning($"Valid but unknown command received. " +
                     $"{sender} -> {receiver} {comms} {ack} {encryption} | " +
-                    $"{dataPayload[6].ToHexString()} " +
-                    $"{dataPayload[5].ToHexString()}");
+                    $"CmdSet: {dataPayload[5].ToHexString()} " +
+                    $"Cmd: {dataPayload[6].ToHexString()}");
 
                 return false;
             }

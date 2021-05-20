@@ -1,4 +1,5 @@
 ﻿using Dji.Network.Packet;
+using Dji.Network.Packet.DjiPackets;
 using PacketDotNet;
 using SharpPcap;
 using System;
@@ -92,7 +93,7 @@ namespace Dji.Network
 
         public void Write(DjiNetworkPacket djiNetworkPacket)
         {
-            if (_dumlBinaryWriter != null && djiNetworkPacket.DjiPacket.Get(false).Length > 0)
+            if (_dumlBinaryWriter != null && djiNetworkPacket.DjiPacket is DjiDUMLPacket && djiNetworkPacket.DjiPacket.Get(false).Length > 0)
                 Write(_dumlBinaryWriter, djiNetworkPacket.RawCapture.Timeval, djiNetworkPacket.DjiPacket.Get(false));
 
             _dumlBinaryWriter?.Flush();

@@ -1,4 +1,4 @@
-﻿namespace Dji.Network.Packet
+﻿namespace Dji.Network
 {
     public class DjiNetworkInformation
     {

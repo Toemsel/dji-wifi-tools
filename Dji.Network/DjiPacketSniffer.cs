@@ -1,4 +1,5 @@
 using Dji.Network.Packet;
+using Dji.Network.Packet.DjiPackets.Base;
 using SharpPcap;
 using System;
 using System.Collections.Concurrent;
@@ -86,7 +87,11 @@ namespace Dji.Network
             // skip none UDP packets
             if (capture.Packet.Data.Length < 42) return;
 
-            UdpPacket udpPacket = new UdpPacket(capture.Packet.Data);
+            string sourceIpAddress = capture.Packet.Data.Length < 29 ? string.Empty :
+                $"{(uint)capture.Packet.Data[26]}.{(uint)capture.Packet.Data[27]}.{(uint)capture.Packet.Data[28]}.{(uint)capture.Packet.Data[29]}";
+
+            string destinationIpAddress = capture.Packet.Data.Length < 33 ? string.Empty :
+                $"{(uint)capture.Packet.Data[30]}.{(uint)capture.Packet.Data[31]}.{(uint)capture.Packet.Data[32]}.{(uint)capture.Packet.Data[33]}";
 
             switch (_snifferState)
             {
@@ -101,21 +106,21 @@ namespace Dji.Network
                     // extract the source and destination ip-address
 
                     // if we the packet isn't for the drone, skip
-                    if (udpPacket.DestinationIpAddress != DRONE_IP_ADDRESS) return;
+                    if (destinationIpAddress != DRONE_IP_ADDRESS) return;
 
-                    IPAddress sourceIpAddress = IPAddress.Parse(udpPacket.SourceIpAddress);
+                    IPAddress sourceIpAddr = IPAddress.Parse(sourceIpAddress);
 
                     // ignore network and broadcast packets + ignore non-local packets
-                    if (sourceIpAddress.GetAddressBytes()[3] == 0) return;
-                    else if (sourceIpAddress.GetAddressBytes()[3] == Convert.ToInt16(255)) return;
-                    else if (!udpPacket.SourceIpAddress.StartsWith("192.168")) return;
+                    if (sourceIpAddr.GetAddressBytes()[3] == 0) return;
+                    else if (sourceIpAddr.GetAddressBytes()[3] == Convert.ToInt16(255)) return;
+                    else if (!sourceIpAddress.StartsWith("192.168")) return;
 
                     // ignore our own ip address
                     var localAddresses = Dns.GetHostEntry(Dns.GetHostName())
                         .AddressList.Where(a => a.AddressFamily == AddressFamily.InterNetwork)
                         .Select(s => s.ToString()).ToList();
 
-                    if (localAddresses.Contains(udpPacket.SourceIpAddress)) return;
+                    if (localAddresses.Contains(sourceIpAddress)) return;
 
                     // drone has been found. We require to do following actions:
                     // 1. remember the operator's ip-address
@@ -123,9 +128,9 @@ namespace Dji.Network
                     // 3. notify any possible subscribers about our accomplishment
                     // 4. reroute this packet to the subscribers, as this is our first valid packet
                     // 5. stop listening on all other interfaces
-                    var networkInformation = new DjiNetworkInformation(udpPacket.SourceIpAddress, DRONE_IP_ADDRESS, NetworkStatus.Connected);
+                    var networkInformation = new DjiNetworkInformation(sourceIpAddress, DRONE_IP_ADDRESS, NetworkStatus.Connected);
 
-                    Trace.TraceInformation($"Interface {capture.Device?.Name ?? "Simulation"} detected possible drone {udpPacket.SourceIpAddress}");
+                    Trace.TraceInformation($"Interface {capture.Device?.Name ?? "Simulation"} detected possible drone {sourceIpAddress}");
 
                     _operatorIpAddress = networkInformation.OperatorIpAddress;
                     _snifferState = SnifferState.PacketSniffing;
@@ -145,13 +150,17 @@ namespace Dji.Network
                 case SnifferState.PacketSniffing:
 
                     // ignore all none-dji related network packets
-                    if((udpPacket.DestinationIpAddress != DRONE_IP_ADDRESS &&
-                        udpPacket.DestinationIpAddress != _operatorIpAddress) ||
-                        (udpPacket.SourceIpAddress != DRONE_IP_ADDRESS &&
-                        udpPacket.SourceIpAddress != _operatorIpAddress))
+                    if((destinationIpAddress != DRONE_IP_ADDRESS &&
+                        destinationIpAddress != _operatorIpAddress) ||
+                        (sourceIpAddress != DRONE_IP_ADDRESS &&
+                        sourceIpAddress != _operatorIpAddress))
                         return;
 
-                    var networkPacket = new NetworkPacket(udpPacket, capture.Packet);
+                    // determine based on the sender who sent the packet
+                    var participant = sourceIpAddress == DRONE_IP_ADDRESS ?
+                        Participant.Drone : Participant.Operator;
+
+                    var networkPacket = new NetworkPacket(participant, sourceIpAddress, destinationIpAddress, capture.Packet);
                     _networkPackets.Enqueue(networkPacket);
                     _networkFrameAvailable.Set();
 

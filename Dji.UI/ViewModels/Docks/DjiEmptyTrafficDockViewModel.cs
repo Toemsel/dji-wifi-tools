@@ -1,4 +1,5 @@
 ﻿using Dji.Network.Packet;
+using Dji.Network.Packet.DjiPackets;
 
 namespace Dji.UI.ViewModels.Docks
 {
@@ -6,13 +7,8 @@ namespace Dji.UI.ViewModels.Docks
     {
         public DjiEmptyTrafficDockViewModel()
         {
-            void HasOnlyWifiHeaderFilter(DjiNetworkPacket djiNetworkPacket)
-            {
-                if (!djiNetworkPacket.DjiPacket.IsKnown)
-                    Store(djiNetworkPacket);
-            }
-
-            DjiContentViewModel.Instance.PacketResolver.AddDjiPacketListener(HasOnlyWifiHeaderFilter);
+            DjiContentViewModel.Instance.OperatorPacketResolver.AddDjiPacketListener<DjiNetworkPacket<DjiEmptyPacket>, DjiEmptyPacket>(djiNetworkPacket => Store(djiNetworkPacket));
+            DjiContentViewModel.Instance.DronePacketResolver.AddDjiPacketListener<DjiNetworkPacket<DjiEmptyPacket>, DjiEmptyPacket>(djiNetworkPacket => Store(djiNetworkPacket));
         }
     }
 }

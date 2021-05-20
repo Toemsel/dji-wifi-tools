@@ -58,11 +58,11 @@
           IsReadOnly="True">
       <DataGrid.Columns>
         <DataGridTextColumn Header="#" Binding="{Binding Id}" Width="80" />
-        <DataGridTextColumn Header="f-size" Binding="{Binding UdpPacket.Data.Length}" Width="80" />
-        <DataGridTextColumn Header="p-size" Binding="{Binding UdpPacket.Payload.Length}" Width="80" />
+        <DataGridTextColumn Header="f-size" Binding="{Binding Length}" Width="80" />
+        <DataGridTextColumn Header="p-size" Binding="{Binding Payload.Length}" Width="80" />
 
-        <DataGridTextColumn Header="source-ip" Binding="{Binding UdpPacket.SourceIpAddress, Mode=OneWay}" Width="150" />
-        <DataGridTextColumn Header="destination-ip" Binding="{Binding UdpPacket.DestinationIpAddress, Mode=OneWay}" Width="150" />
+        <DataGridTextColumn Header="source-ip" Binding="{Binding Source, Mode=OneWay}" Width="150" />
+        <DataGridTextColumn Header="destination-ip" Binding="{Binding Destination, Mode=OneWay}" Width="150" />
         <DataGridTextColumn Header="time" Binding="{Binding UnixTime}" Width="200" />
       </DataGrid.Columns>
       <DataGrid.ContextMenu>

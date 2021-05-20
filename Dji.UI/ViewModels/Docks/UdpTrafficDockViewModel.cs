@@ -2,6 +2,10 @@
 {
     public class UdpTrafficDockViewModel : TrafficDockViewModel
     {
-        public UdpTrafficDockViewModel() => DjiContentViewModel.Instance.PacketResolver.AddDjiPacketListener(packet => Store(packet));
+        public UdpTrafficDockViewModel()
+        {
+            DjiContentViewModel.Instance.OperatorPacketResolver.AddPacketListener(packet => Store(packet));
+            DjiContentViewModel.Instance.DronePacketResolver.AddPacketListener(packet => Store(packet));
+        }
     }
 }

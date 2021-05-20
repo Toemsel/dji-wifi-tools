@@ -6,7 +6,6 @@
     <Compile Remove="GimbalControl.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NullFX.CRC" Version="1.1.1" />
     <PackageReference Include="SharpPcap" Version="5.4.0" />
   </ItemGroup>
 </Project>

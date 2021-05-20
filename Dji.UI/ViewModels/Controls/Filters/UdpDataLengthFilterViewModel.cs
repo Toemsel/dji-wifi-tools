@@ -6,6 +6,6 @@ namespace Dji.UI.ViewModels.Controls.Filters
 {
     public class UdpDataLengthFilterViewModel : NumbericFilterViewModel
     {
-        protected override Expression<Func<NetworkPacket, bool>> FilterExpression => networkPacket => !HasValue || networkPacket.UdpPacket.Data.Length == Numeric;
+        protected override Expression<Func<NetworkPacket, bool>> FilterExpression => networkPacket => !HasValue || networkPacket.Length == Numeric;
     }
 }

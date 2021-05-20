@@ -1,4 +1,5 @@
 ﻿using Avalonia.Threading;
+using Dji.Network;
 using Dji.Network.Packet;
 using Dji.UI.Extensions;
 using Dji.UI.Pooling;
@@ -96,10 +97,8 @@ namespace Dji.UI.ViewModels.Docks
                 contextMenu.Add(new ContextMenuEntry($"Add to inspector {hexWindow.Title}", (networkPacket) => hexWindow.Add(networkPacket)));
 
             // add copy commands
-            contextMenu.Add(new ContextMenuEntry("Copy data hex", async (networkPacket) => await networkPacket?.UdpPacket?.Data?.CopyToClipboard(true)));
-            contextMenu.Add(new ContextMenuEntry("Copy data stream", async (networkPacket) => await networkPacket?.UdpPacket?.Data?.CopyToClipboard(false)));
-            contextMenu.Add(new ContextMenuEntry("Copy payload hex", async (networkPacket) => await networkPacket?.UdpPacket?.Payload?.CopyToClipboard(true)));
-            contextMenu.Add(new ContextMenuEntry("Copy payload stream", async (networkPacket) => await networkPacket?.UdpPacket?.Payload?.CopyToClipboard(false)));
+            contextMenu.Add(new ContextMenuEntry("Copy data hex", async (networkPacket) => await networkPacket?.Payload.CopyToClipboard(true)));
+            contextMenu.Add(new ContextMenuEntry("Copy data stream", async (networkPacket) => await networkPacket?.Payload.CopyToClipboard(false)));
 
             // add context-specific entries
             contextMenu.AddRange(CreateDockSpecificContextMenu());

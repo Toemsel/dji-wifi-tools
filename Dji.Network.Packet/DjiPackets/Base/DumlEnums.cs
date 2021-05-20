@@ -1,5 +1,50 @@
-﻿namespace Dji.Network.Packet.Structure
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+
+namespace Dji.Network.Packet.DjiPackets.Base
 {
+    [AttributeUsage(AttributeTargets.Field)]
+    public class CmdAttribute : Attribute
+    {
+
+        private static readonly Dictionary<Cmd, CmdAttribute> _commandAttributes = new();
+
+        public CmdAttribute(ushort data, byte cmdSet, string cmdSetDescription, byte cmd, string cmdDescription) =>
+            (Data, CmdSet, CmdSetDescription, Cmd, CmdDescription) = (data, cmdSet, cmdSetDescription, cmd, cmdDescription);
+
+        public ushort Data { get; init; }
+
+        public byte Cmd { get; init; }
+
+        public byte CmdSet { get; init; }
+
+        public string CmdDescription { get; init; }
+
+        public string CmdSetDescription { get; init; }
+
+        static CmdAttribute()
+        {
+            foreach (var enumVal in Enum.GetValues(typeof(Cmd)))
+            {
+                var memberInfo = typeof(Cmd).GetMember(enumVal.ToString());
+                var enumValMemberInfo = memberInfo.FirstOrDefault(m => m.DeclaringType == typeof(Cmd));
+                var enumAttribute = enumValMemberInfo.GetCustomAttributes(typeof(CmdAttribute), false);
+
+                if (enumAttribute == null || enumAttribute.Length <= 0)
+                    Trace.TraceWarning($"Enum {typeof(Cmd).Name} misses {nameof(CmdAttribute)}");
+
+                var attribute = enumAttribute?.FirstOrDefault() as CmdAttribute;
+
+                if (attribute != null)
+                    _commandAttributes.Add((Cmd)enumVal, attribute);
+            }
+        }
+
+        public static CmdAttribute TryGetAttribute(Cmd cmd) => _commandAttributes.ContainsKey(cmd) ? _commandAttributes[cmd] : null;
+    }
+
     // https://github.com/o-gs/dji-firmware-tools/blob/05e24cb12803943f63ac5ae1574e517e59a2dd0a/comm_dissector/wireshark/dji-dumlv1-proto.lua#L59
     public enum Comms
     {
@@ -1879,5 +1924,11 @@
 
         // [11] https://github.com/o-gs/dji-firmware-tools/blob/05e24cb12803943f63ac5ae1574e517e59a2dd0a/comm_dissector/wireshark/dji-dumlv1-proto.lua#L494
         // https://github.com/o-gs/dji-firmware-tools/blob/05e24cb12803943f63ac5ae1574e517e59a2dd0a/comm_dissector/wireshark/dji-dumlv1-proto.lua#L486
+    }
+
+    public enum Participant
+    {
+        Drone,
+        Operator
     }
 }

@@ -1,8 +1,8 @@
-﻿using System.Linq.Expressions;
-using Dji.Network.Packet;
-using Dji.Network;
+﻿using Dji.Network.Packet;
+using Dji.Network.Packet.DjiPackets.Base;
 using ReactiveUI;
 using System;
+using System.Linq.Expressions;
 
 namespace Dji.UI.ViewModels.Controls.Filters
 {
@@ -19,11 +19,8 @@ namespace Dji.UI.ViewModels.Controls.Filters
 
         protected override Expression<Func<NetworkPacket, bool>> FilterExpression => (networkPacket) =>
             (!Drone && !Operator) ||
-            (networkPacket.UdpPacket.SourceIpAddress == DroneIpAddress && Drone) ||
-            (networkPacket.UdpPacket.SourceIpAddress == OperatorIpAddress && Operator);
-
-        private string DroneIpAddress => DjiNetworkInformation?.DroneIpAddress ?? string.Empty;
-        private string OperatorIpAddress => DjiNetworkInformation?.OperatorIpAddress ?? string.Empty;
+            (networkPacket.Participant == Participant.Drone && Drone) ||
+            (networkPacket.Participant == Participant.Operator && Operator);
 
         public bool Drone
         {

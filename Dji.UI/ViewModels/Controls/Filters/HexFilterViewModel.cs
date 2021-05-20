@@ -1,11 +1,11 @@
-﻿using System.Linq.Expressions;
+﻿using Avalonia.Data;
 using Dji.Network.Packet;
+using Dji.Network.Packet.Extensions;
 using Dji.UI.Extensions;
-using Avalonia.Data;
-using System.Linq;
 using ReactiveUI;
 using System;
-using Dji.Network.Packet.Extensions;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace Dji.UI.ViewModels.Controls.Filters
 {
@@ -15,7 +15,7 @@ namespace Dji.UI.ViewModels.Controls.Filters
 
         public HexFilterViewModel() => this.WhenAnyValue(instance => instance.Hex).Subscribe(hex => DjiNetworkPacketPool?.EvaluateFilterOnPackets());
 
-        protected override Expression<Func<NetworkPacket, bool>> FilterExpression => (networkPacket) => string.IsNullOrWhiteSpace(Hex) || networkPacket.UdpPacket.Payload.Contains(Hex);
+        protected override Expression<Func<NetworkPacket, bool>> FilterExpression => (networkPacket) => string.IsNullOrWhiteSpace(Hex) || networkPacket.Payload.Contains(Hex);
 
         public string Hex
         {

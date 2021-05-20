@@ -16,11 +16,11 @@ namespace Dji.UI.ViewModels.Controls.Inspectors
             _networkPacket = networkPacket;
             _title = $"#{_networkPacket.Id}";
 
-            foreach (var currentByte in _networkPacket.UdpPacket.Payload)
+            foreach (var currentByte in _networkPacket.Payload)
                 HexValueViewModels.Add(new HexValueControlViewModel(currentByte));
         }
 
-        public byte[] Data => _networkPacket.UdpPacket.Payload;
+        public byte[] Data => _networkPacket.Payload;
 
         public string Title => _title;
 

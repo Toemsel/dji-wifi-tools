@@ -60,18 +60,18 @@
           IsReadOnly="True">
       <DataGrid.Columns>
         <DataGridTextColumn Header="#" Binding="{Binding Id}" />
-        <DataGridTextColumn Header="src-module" Binding="{Binding DjiPacket.Payload.Sender}" />
-        <DataGridTextColumn Header="dest-module" Binding="{Binding DjiPacket.Payload.Receiver}" />
-        <DataGridTextColumn Header="comm" Binding="{Binding DjiPacket.Payload.Comms}" />
-        <DataGridTextColumn Header="cmd-set" Binding="{Binding DjiPacket.Payload.CommandDetails.CmdSetDescription}" />
-        <DataGridTextColumn Header="cmd" Binding="{Binding DjiPacket.Payload.CommandDetails.CmdDescription}" />
-        <DataGridTextColumn Header="ack" Binding="{Binding DjiPacket.Payload.Ack}" />
-        <DataGridTextColumn Header="enc" Binding="{Binding DjiPacket.Payload.Encryption}" />
-        <DataGridTextColumn Header="ctr" Binding="{Binding DjiPacket.Payload.Counter}" />
-        <DataGridTextColumn Header="f-size" Binding="{Binding UdpPacket.Data.Length}" />
-        <DataGridTextColumn Header="p-size" Binding="{Binding UdpPacket.Payload.Length}" />
-        <DataGridTextColumn Header="src-ip" Binding="{Binding UdpPacket.SourceIpAddress, Mode=OneWay}" />
-        <DataGridTextColumn Header="dest-ip" Binding="{Binding UdpPacket.DestinationIpAddress, Mode=OneWay}" />
+        <DataGridTextColumn Header="src-module" Binding="{Binding DjiPacket.Sender}" />
+        <DataGridTextColumn Header="dest-module" Binding="{Binding DjiPacket.Receiver}" />
+        <DataGridTextColumn Header="comm" Binding="{Binding DjiPacket.Comms}" />
+        <DataGridTextColumn Header="cmd-set" Binding="{Binding DjiPacket.CommandDetails.CmdSetDescription}" />
+        <DataGridTextColumn Header="cmd" Binding="{Binding DjiPacket.CommandDetails.CmdDescription}" />
+        <DataGridTextColumn Header="ack" Binding="{Binding DjiPacket.Ack}" />
+        <DataGridTextColumn Header="enc" Binding="{Binding DjiPacket.Encryption}" />
+        <DataGridTextColumn Header="ctr" Binding="{Binding DjiPacket.Counter}" />
+        <DataGridTextColumn Header="f-size" Binding="{Binding Length}" />
+        <DataGridTextColumn Header="p-size" Binding="{Binding Payload.Length}" />
+        <DataGridTextColumn Header="src-ip" Binding="{Binding Source, Mode=OneWay}" />
+        <DataGridTextColumn Header="dest-ip" Binding="{Binding Destination, Mode=OneWay}" />
         <DataGridTextColumn Header="time" Binding="{Binding UnixTime, Mode=OneWay}" />
       </DataGrid.Columns>
       <DataGrid.ContextMenu>

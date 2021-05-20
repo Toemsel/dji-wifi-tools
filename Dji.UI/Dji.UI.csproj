@@ -5,6 +5,9 @@
     <Nullable>disable</Nullable>
     <ApplicationIcon>Drone.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.10.2" />
     <PackageReference Include="Avalonia.Controls.DataGrid" Version="0.10.2" />

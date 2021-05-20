@@ -5,12 +5,15 @@
              xmlns:converters="using:Dji.UI.Converters"
              xmlns:inspectors="using:Dji.UI.View.Controls.Inspectors"
              xmlns:statusBar="using:Dji.UI.View.StatusBar"
+             xmlns:controls="using:Dji.UI.View.Controls"
              xmlns:docks="using:Dji.UI.View.Docks"
              xmlns:viewModel="using:Dji.UI.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="480"
              x:Class="Dji.UI.DjiContent">
 
-  <Grid>
+  <Grid>   
+    <Button Command="{Binding Stuff}" VerticalAlignment="Top" Margin="200, 0, 0, 0">Play</Button>
+    
     <DockPanel LastChildFill="false">
 
       <Menu DockPanel.Dock="Top" HorizontalAlignment="Left">

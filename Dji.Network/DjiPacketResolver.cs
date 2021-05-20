@@ -1,5 +1,5 @@
 using Dji.Network.Packet;
-using Dji.Network.Packet.Extensions;
+using Dji.Network.Packet.DjiPackets.Base;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -11,7 +11,9 @@ namespace Dji.Network
 
     public delegate void DjiNetworkPacketReceived(DjiNetworkPacket packet);
 
-    public class DjiPacketResolver
+    public delegate void NetworkPacketReceived(NetworkPacket packet);
+
+    public abstract class DjiPacketResolver
     {
         private readonly ConcurrentDictionary<Type, List<Delegate>> _packetListeners = new();
 
@@ -26,10 +28,14 @@ namespace Dji.Network
             }
         }
 
-        public void AddDjiPacketListener(DjiNetworkPacketReceived del)
-        {
-            Type packetType = typeof(DjiNetworkPacket);
+        public void AddPacketListener(NetworkPacketReceived del) => AddPacketListener(typeof(NetworkPacket), del);
 
+        public void AddDjiPacketListener(DjiNetworkPacketReceived del) => AddPacketListener(typeof(DjiNetworkPacket), del);
+
+        public void AddDjiPacketListener<T, V>(DjiNetworkPacketReceived<V> del) where T : DjiNetworkPacket<V> where V : DjiPacket => AddPacketListener(typeof(T), del);
+
+        private void AddPacketListener(Type packetType, Delegate del)
+        {
             if (this[packetType].Contains(del))
                 return;
 
@@ -42,64 +48,38 @@ namespace Dji.Network
             _packetListeners[packetType].Add(del);
         }
 
-        public void AddDjiPacketListener<T, V>(DjiNetworkPacketReceived<V> del) where T : DjiNetworkPacket<V> where V : DjiPacket
+        protected abstract void ProcessNetworkPacket(NetworkPacket networkPacket);
+
+        protected void Resolve(NetworkPacket networkPacket)
         {
-            Type packetType = typeof(T);
+            var djiPacketGeneric = typeof(NetworkPacket);
 
-            if (this[packetType].Contains(del))
-                return;
-
-            if(!_packetListeners.ContainsKey(packetType))
-            {
-                while (!_packetListeners.ContainsKey(packetType) &&
-                    !_packetListeners.TryAdd(packetType, new List<Delegate>())) { }
-            }
-
-            _packetListeners[packetType].Add(del);
+            for (int currentInvocationIndex = this[djiPacketGeneric].Count - 1; currentInvocationIndex >= 0; currentInvocationIndex--)
+                this[djiPacketGeneric][currentInvocationIndex].DynamicInvoke(new object[] { networkPacket });
         }
 
-        public void RemoveDjiPacketListener<T, V>(DjiNetworkPacketReceived<V> del) where T : DjiNetworkPacket<V> where V : DjiPacket
+        protected void Resolve(DjiNetworkPacket djiNetworkPacket)
         {
-            Type packetType = typeof(T);
+            var djiPacketGeneric = typeof(DjiNetworkPacket);
 
-            if (!_packetListeners.ContainsKey(packetType) || del == null) return;
-            else if (!_packetListeners[packetType].Contains(del)) return;
-            while(_packetListeners[packetType].Contains(del) && !_packetListeners[packetType].Remove(del)) { }
+            for (int currentInvocationIndex = this[djiPacketGeneric].Count - 1; currentInvocationIndex >= 0; currentInvocationIndex--)
+                this[djiPacketGeneric][currentInvocationIndex].DynamicInvoke(new object[] { djiNetworkPacket });
+
+            Resolve(djiNetworkPacket as NetworkPacket);
         }
 
-        public void Feed(NetworkPacket networkPacket)
+        protected void Resolve<T>(DjiNetworkPacket<T> djiNetworkPacket) where T : DjiPacket
         {
-            if (!networkPacket.UdpPacket.HasPayload)
-            {
-                Trace.TraceError($"Invalid byte stream received. Packet dropped");
-            }
-            else
-            {
-                foreach(var subPacket in networkPacket.ToDjiNetworkPackets())
-                {
-                    var djiPacketGeneric = typeof(DjiNetworkPacket);
+            var djiPacketGeneric = typeof(DjiNetworkPacket<T>);
 
-                    for (int currentInvocationIndex = this[djiPacketGeneric].Count - 1; currentInvocationIndex >= 0; currentInvocationIndex--)
-                        this[djiPacketGeneric][currentInvocationIndex].DynamicInvoke(new object[] { subPacket });
-                }
+            for (int currentInvocationIndex = this[djiPacketGeneric].Count - 1; currentInvocationIndex >= 0; currentInvocationIndex--)
+                this[djiPacketGeneric][currentInvocationIndex].DynamicInvoke(new object[] { djiNetworkPacket });
 
-                //var packetIdentifier = networkPacket.UdpPacket.Payload[0];
-                //var djiPacketGeneric = typeof(DjiNetworkPacket<DjiUnknownPacket>);
-
-                //if (_packetTypes.ContainsKey(packetIdentifier))
-                //    djiPacketGeneric = typeof(DjiNetworkPacket<>).MakeGenericType(_packetTypes[packetIdentifier]);
-
-                //var djiPacket = Activator.CreateInstance(djiPacketGeneric, new object[] { networkPacket });
-
-                //for (int currentInvocationIndex = this[djiPacketGeneric].Count - 1; currentInvocationIndex >= 0; currentInvocationIndex--)
-                //    this[djiPacketGeneric][currentInvocationIndex].DynamicInvoke(new object[] { djiPacket });
-
-                //djiPacketGeneric = typeof(DjiNetworkPacket);
-                //djiPacket = (DjiNetworkPacket)djiPacket;
-
-                //for (int currentInvocationIndex = this[djiPacketGeneric].Count - 1; currentInvocationIndex >= 0; currentInvocationIndex--)
-                //    this[djiPacketGeneric][currentInvocationIndex].DynamicInvoke(new object[] { djiPacket });
-            }
+            // resolve again as a common NetworkPacket; this enables
+            // all subscribers (who only want DjiPackets) to receive it
+            Resolve(djiNetworkPacket as DjiNetworkPacket);
         }
+
+        public void Feed(NetworkPacket networkPacket) => ProcessNetworkPacket(networkPacket);
     }
 }

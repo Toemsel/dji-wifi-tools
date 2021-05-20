@@ -82,16 +82,19 @@ namespace Dji.Network
             _dumlBinaryWriter = null;
         }
 
-        public void Write(DjiNetworkPacket djiNetworkPacket)
+        public void Write(NetworkPacket networkPacket)
         {
-            // 1. write the whole udpPacket
             if (_udpBinaryWriter != null)
-                Write(_udpBinaryWriter, djiNetworkPacket.RawCapture.Timeval, djiNetworkPacket.DjiPacket.Raw.Data);
-            // 2. write the duml packet
-            if (_dumlBinaryWriter != null && djiNetworkPacket.DjiPacket.IsKnown)
-                Write(_dumlBinaryWriter, djiNetworkPacket.RawCapture.Timeval, djiNetworkPacket.DjiPacket.GetBytes(false));
+                Write(_udpBinaryWriter, networkPacket.RawCapture.Timeval, networkPacket.RawCapture.Data);
 
             _udpBinaryWriter?.Flush();
+        }
+
+        public void Write(DjiNetworkPacket djiNetworkPacket)
+        {
+            if (_dumlBinaryWriter != null && djiNetworkPacket.DjiPacket.Get(false).Length > 0)
+                Write(_dumlBinaryWriter, djiNetworkPacket.RawCapture.Timeval, djiNetworkPacket.DjiPacket.Get(false));
+
             _dumlBinaryWriter?.Flush();
         }
 

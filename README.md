@@ -41,9 +41,15 @@ The application runs on all [relevant platforms](https://github.com/dotnet/core/
 - Linux (Debian 9+, Mint, 18+, Ubuntu 18.04, RH 7+)
 - Mac (10.13+)
 
+# Prerequisites
+
+1. [Install the .NET 5.0 SDK](https://dotnet.microsoft.com/download/dotnet/5.0)
+2. Download [FFmpeg 4.2 binaries](https://ffbinaries.com/downloads) according to your OS/CPU and place it into the root folder.
+3. (Linux only): `apt-get install -y xsel`
+
 # Compile + Run instructions
 
-[Install the .NET 5.0 SDK](https://dotnet.microsoft.com/download/dotnet/5.0) and switch to the root folder. Execute
+Switch to the root folder and execute
 
 1. `dotnet restore`
 2. `dotnet build`

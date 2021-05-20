@@ -72,7 +72,7 @@ namespace Dji.Network.Packet.DjiPackets.Base
 
         public byte[] Get(bool includeWifi = false)
         {
-            byte[] GetBytes() => _data[(includeWifi ? 0 : 4)..];
+            byte[] GetBytes() => _data[(includeWifi ? 0 : 7)..];
 
             // always try to use the cached value
             if (_data != null) return GetBytes();

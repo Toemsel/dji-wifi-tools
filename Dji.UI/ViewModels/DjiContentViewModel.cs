@@ -1,6 +1,7 @@
 ﻿using Dji.Network;
 using Dji.Network.Packet;
 using Dji.Network.Packet.DjiPackets.Base;
+using Dji.Network.Packet.DjiPackets.Drone;
 using Dji.UI.Extensions.Filesystem;
 using ReactiveUI;
 using System;
@@ -33,7 +34,7 @@ namespace Dji.UI.ViewModels
             _operatorPacketResolver.AddDjiPacketListener(packet => _packetWriter.Write(packet));
             _dronePacketResolver.AddDjiPacketListener(packet => _packetWriter.Write(packet));
 
-            //_dronePacketResolver.AddDjiPacketListener<DjiNetworkPacket<DjiFrame>, DjiFrame>(frame =>  data.Add(frame.DjiPacket.FrameData));
+            _dronePacketResolver.AddDjiPacketListener<DjiNetworkPacket<DjiFramePacket>, DjiFramePacket>(frame => data.Add(frame.DjiPacket.FrameData));
         }
 
         public void Stuff()

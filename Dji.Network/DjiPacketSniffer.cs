@@ -84,8 +84,10 @@ namespace Dji.Network
 
         public void Device_OnPacketArrival(object sender, CaptureEventArgs capture)
         {
-            // skip none UDP packets
+            // skip packets which are obviously too small
             if (capture.Packet.Data.Length < 42) return;
+            // skip none-UDP packets (TCP, ICMP,...)
+            else if (capture.Packet.Data[0x17] != 0x11) return;
 
             string sourceIpAddress = capture.Packet.Data.Length < 29 ? string.Empty :
                 $"{(uint)capture.Packet.Data[26]}.{(uint)capture.Packet.Data[27]}.{(uint)capture.Packet.Data[28]}.{(uint)capture.Packet.Data[29]}";

@@ -4,22 +4,30 @@ using Dji.Network.Packet.DjiPackets.Base;
 using Dji.Network.Packet.DjiPackets.Drone;
 using Dji.Network.Packet.Extensions;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace Dji.Network
 {
     public class DjiDronePacketResolver : DjiPacketResolver
     {
+        private Queue<byte[]> _frameUpdates = new Queue<byte[]>();
+
         protected override void ProcessNetworkPacket(NetworkPacket networkPacket)
         {
+            WhType whType = (WhType)networkPacket.Payload[0x06];
+
             // case 1.: Drone's handshake
             if (networkPacket.Payload[0] == 0x08 && networkPacket.Payload[1] == 0x80)
                 _ = InstSetRes<DjiHandshakePacket>(networkPacket, djiPacket: out _, 0x04);
-            // case 2.: Command packet(s)
-            else if (IsCmdNetworkPacket(networkPacket))
+            // case 2.: Camera-feed update received
+            else if (whType == WhType.DroneImgFrame)
+                HandleFrameNetworkPacket(networkPacket);
+            // case 3.: Command packet(s) received
+            else if (whType == WhType.DroneCmd1 || whType == WhType.DroneCmd2)
                 HandleCmdNetworkPacket(networkPacket);
-            // case 3.: We deal with a frame-update
-            else HandleFrameNetworkPacket(networkPacket);
+            else Trace.TraceWarning($"Unknown drone {nameof(WhType)} received {networkPacket.Payload[0x06].ToHexString()}");
         }
 
         private bool InstSetRes<T>(NetworkPacket networkPacket, out T djiPacket, int? delimiter = null) where T : DjiPacket
@@ -28,7 +36,7 @@ namespace Dji.Network
             bool djiPacketState = djiPacket.Set(networkPacket.Payload, delimiter);
 
             if (djiPacketState) 
-                Resolve(networkPacket.Wrap(djiPacket, typeof(T)));
+                Resolve(networkPacket.Wrap<T>(djiPacket));
 
             return djiPacketState;
         }
@@ -38,7 +46,7 @@ namespace Dji.Network
             // the drone tends to send not one, but several commands at once.
             // they are aggregated and chained from head to tail. (or tail to head, whatever)
 
-            int idx = 32; // the very first packet starts at pos 32
+            int idx = DjiPacket.GetWhSize(networkPacket.Payload);
 
             while(idx < networkPacket.Payload.Length)
             {
@@ -69,22 +77,25 @@ namespace Dji.Network
             }
         }
 
-        private bool IsCmdNetworkPacket(NetworkPacket networkPacket)
-        {
-            // if the packet isn't large enough, it cant be a cmd packet
-            if (networkPacket.Payload.Length <= 0x20) return false;
-            // if the delimiter valid, it cant be a cmd packet
-            else if (networkPacket.Payload[32] != 0x55) return false;
-
-            // it COULD be a cmd packet. It still depends on the data though.
-            DjiCmdPacket djiCmdPacket = new DjiCmdPacket();
-            // evaluate whether we deal with a Cmd-packet by creating one.
-            return djiCmdPacket.Set(networkPacket.Payload, 32) || djiCmdPacket.DumlSize != default(ushort);
-        }
-
         private void HandleFrameNetworkPacket(NetworkPacket networkPacket)
         {
+            int frameStartIdx = DjiPacket.GetWhSize(networkPacket.Payload);
 
+            _frameUpdates.Enqueue(networkPacket.Payload[frameStartIdx..]);
+
+            // we did receive a frame-update. however, we didn't reach the end of the
+            // frame-update yet. Thus, remember the data and wait for more to come
+            if (!networkPacket.Payload.EndsWith(DjiFramePacket.END_OF_FRAME_UPDATE_DELIMITER)) return;
+
+            byte[] frameUpdateData = networkPacket.Payload[..frameStartIdx];
+            frameUpdateData = frameUpdateData.Append(_frameUpdates.ToArray().SelectMany(s => s).ToArray());
+
+            DjiFramePacket framePacket = new DjiFramePacket();
+            if (framePacket.Set(frameUpdateData, frameStartIdx))
+                Resolve(networkPacket.Wrap<DjiFramePacket>(framePacket));
+
+            // reset our frame-buffer
+            _frameUpdates = new Queue<byte[]>();
         }
     }
 }

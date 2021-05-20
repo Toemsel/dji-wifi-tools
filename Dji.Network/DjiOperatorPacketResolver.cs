@@ -12,11 +12,11 @@ namespace Dji.Network
         protected override void ProcessNetworkPacket(NetworkPacket networkPacket)
         {
             var packetType = typeof(DjiEmptyPacket);
-            byte wifiSize = DjiPacket.GetWifiSize(networkPacket.Payload);
+            byte wifiSize = DjiPacket.GetWhSize(networkPacket.Payload);
 
             // we did receive a wifi-packet with cmd data attached.
             // ensure that the delimiter is indeed 0x55 before we declare it a command.
-            if (wifiSize < networkPacket.Payload.Length && networkPacket.Payload[wifiSize] == 0x55)
+            if (wifiSize < networkPacket.Payload.Length && networkPacket.Payload[wifiSize] == DjiDUMLPacket.DELIMITER)
                 packetType = typeof(DjiCmdPacket);
 
             DjiPacket djiPacket = (DjiPacket)Activator.CreateInstance(packetType);

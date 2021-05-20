@@ -5,6 +5,8 @@ namespace Dji.Network.Packet.DjiPackets
 {
     public abstract class DjiDUMLPacket : DjiPacket
     {
+        public const byte DELIMITER = 0x55;
+
         protected const ushort HEADER_SIZE = 4;
         protected const ushort PAYLOAD_SIZE = 9;
 

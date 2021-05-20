@@ -45,6 +45,17 @@ namespace Dji.Network.Packet.DjiPackets.Base
         public static CmdAttribute TryGetAttribute(Cmd cmd) => _commandAttributes.ContainsKey(cmd) ? _commandAttributes[cmd] : null;
     }
 
+    public enum WhType
+    {
+        OperatorEmpty = 0x00,
+        DroneCmd1 = 0x01,
+        DroneImgFrame = 0x02,
+        DroneCmd2 = 0x03,
+        OperatorCmd1 = 0x04,
+        OperatorCmd2 = 0x05,
+        OperatorCmd3 = 0x06        
+    }
+
     // https://github.com/o-gs/dji-firmware-tools/blob/05e24cb12803943f63ac5ae1574e517e59a2dd0a/comm_dissector/wireshark/dji-dumlv1-proto.lua#L59
     public enum Comms
     {

@@ -12,6 +12,7 @@ namespace Dji.Network.Packet.DjiPackets.Base
         #region Wifi
         private ushort _size;
         private byte[] _session;
+        private WhType _whType;
 
         public ushort Size
         {
@@ -23,6 +24,12 @@ namespace Dji.Network.Packet.DjiPackets.Base
         {
             get => _session;
             set => SetValue(ref _session, value);
+        }
+
+        public WhType WhType
+        {
+            get => _whType;
+            set => SetValue(ref _whType, value);
         }
         #endregion
         protected void SetValue<T>(ref T property, T value)
@@ -51,8 +58,9 @@ namespace Dji.Network.Packet.DjiPackets.Base
 
             Size = GetPacketSize(data[0..2]);
             Session = data[2..4];
+            WhType = (WhType)data[6];
 
-            int dataPacketStart = delimiter ?? GetWifiSize(data);
+            int dataPacketStart = delimiter ?? GetWhSize(data);
 
             // the wifi-header is present at this point.
             // however, the payload might not exist.
@@ -70,12 +78,15 @@ namespace Dji.Network.Packet.DjiPackets.Base
             if (_data != null) return GetBytes();
 
             byte[] payload = Build();
-            byte[] wifi = new byte[4];
+            byte[] wifi = new byte[7];
 
             wifi[0] = (byte)(Size << 8);
             wifi[1] = (byte)(0x80 + (byte)Size);
             wifi[2] = Session[0];
             wifi[3] = Session[1];
+            wifi[4] = 0x00;
+            wifi[5] = 0x00;
+            wifi[6] = (byte)WhType;
 
             _data = new byte[wifi.Length + payload.Length];
             Array.Copy(wifi, 0, _data, 0, wifi.Length);
@@ -95,16 +106,40 @@ namespace Dji.Network.Packet.DjiPackets.Base
             return (ushort)(((high & 0x0F) << 8) + low);
         }
 
-        public static byte GetWifiSize(byte[] data)
+        public static byte GetWhSize(byte[] data)
         {
             // not enough data available for the wifi-header
             if (data.Length < 0x0F)
                 throw new ArgumentException($"Parameter {nameof(data)} does not provide enough data for a valid wifi-header");
 
-            byte leftParam = (byte)(data[0x0C] << 1);
-            byte rightParam = (byte)(data[0x0E] + data[0x0F]);
+            byte offSet = 0x00;
+            byte pos = 0x00;
+
+            switch ((WhType)data[0x06])
+            {
+                case WhType.DroneCmd1:
+                    offSet = (byte)(data[0x1C] << 1);
+                    pos = 0x20;
+                    break;
+                case WhType.OperatorCmd2:
+                case WhType.DroneImgFrame:
+                case WhType.DroneCmd2:
+                    pos = 0x14;
+                    break;
+                case WhType.OperatorCmd1:
+                case WhType.OperatorCmd3:
+                    offSet = (byte)(data[0x0C] << 1);
+                    pos = 0x1E;
+                    break;
+                case WhType.OperatorEmpty:
+                    pos = (byte)data.Length;
+                    break;
+
+                default:
+                    throw new ArgumentException($"The provided data {data[0x06].ToHexString()} features an invalid {nameof(WhType)}");
+            }
             
-            return rightParam == 0x00 ? (byte)0x14 : (byte)(0x1E + leftParam);
+            return (byte)(pos + offSet);
         }
     }
 }

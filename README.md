@@ -49,6 +49,8 @@ The application runs on all [relevant platforms](https://github.com/dotnet/core/
 2. `dotnet build`
 3. `dotnet run --project Dji.Ui`
 
+Project configurations for Visual Studio 2019 and Visual Studio Code are included.
+
 # Usage Instructions
 
 If you do require any usage instructions, maybe this tool isn't meant for you.

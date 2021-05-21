@@ -26,12 +26,17 @@ This repo contains a set of tools to facilitate the analysis of the Dji wifi com
 # Supported Drones
 
 - [x] Mavic Pro 1
-- [ ] Phantom 2
-- [x] Phantom 3 (untested)
-- [x] Phantom 4 (untested)
+- [x] Phantom 3
+- [x] Phantom 4
+
+### Theoretical support
+
+Those drones are theoretically supported. However, they do require a delimiter extension which won't be implemented anytime soon.
+
 - [ ] Naza M
 - [ ] Naza M V2
 - [ ] Phanto
+- [ ] Phantom 2
 
 # Supported Platforms
 

@@ -37,7 +37,7 @@ Those drones are theoretically supported. However, they do require a delimiter e
 
 - [ ] Naza M
 - [ ] Naza M V2
-- [ ] Phanto
+- [ ] Phantom 1
 - [ ] Phantom 2
 
 # Supported Platforms

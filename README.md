@@ -50,7 +50,11 @@ The application runs on all [relevant platforms](https://github.com/dotnet/core/
 
 1. [Install the .NET 5.0 SDK](https://dotnet.microsoft.com/download/dotnet/5.0)
 2. Download [FFmpeg 4.2 binaries](https://ffbinaries.com/downloads) according to your OS/CPU and place it into the root folder.
-3. (Linux only): `apt-get install -y xsel`
+3. _Optional_ for Linux (copy function): `apt install -y xsel`
+4. _Optional_ for Linux (video playback): `apt install libvlc-dev`
+5. _Optional_ for Linux (video playback): `apt install vlc`
+6. _Optional_ for Linux (video playback): `apt install gtk-sharp2`
+7. _Optional_ for Linux (video playback): `apt install libx11-dev`
 
 # Compile + Run instructions
 

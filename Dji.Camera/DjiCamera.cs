@@ -88,7 +88,7 @@ namespace Dji.Camera
             }
             catch(Exception exception)
             {
-                Trace.TraceWarning($"{nameof(DjiCamera)}: Cleanup failure. Temp files may be remain on your drive", exception);
+                Trace.TraceWarning($"{nameof(DjiCamera)}: Cleanup failure. Temp files may remain on your disk", exception);
             }
 
             _frameBuffer = Path.Combine(FilePath, $"{BUFFER_PREFIX}{Guid.NewGuid():N}");

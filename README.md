@@ -11,7 +11,7 @@ This repo contains a set of tools to facilitate the analysis of the Dji wifi com
 - [x] Export as *.pcap
 - [x] Import *.pcap
 - [x] Export as [DUML](https://github.com/o-gs/dji-firmware-tools/tree/master/comm_dissector) for further in-depth analysis
-- [ ] Camera output rendering
+- [x] Camera output rendering
 - [ ] Self-contained drone control
   - [ ] Takeoff
   - [ ] Landing
@@ -19,19 +19,26 @@ This repo contains a set of tools to facilitate the analysis of the Dji wifi com
   - [ ] Rotate
   - [ ] Elevate
 
-# Screenshot
+# Screenshots
 
 ![Screenshot](https://www.indie-dev.at/wp-content/uploads/2021/05/Screenshot.png "Simulation replay and packet comparison")
+
+![Screenshot](https://www.indie-dev.at/wp-content/uploads/2021/05/VideoPlayback.png "Camera Playback")
 
 # Supported Drones
 
 - [x] Mavic Pro 1
-- [ ] Phantom 2
-- [x] Phantom 3 (untested)
-- [x] Phantom 4 (untested)
+- [x] Phantom 3
+- [x] Phantom 4
+
+### Theoretical support
+
+Those drones are theoretically supported. However, they do require a delimiter extension which won't be implemented anytime soon.
+
 - [ ] Naza M
 - [ ] Naza M V2
 - [ ] Phanto
+- [ ] Phantom 2
 
 # Supported Platforms
 
@@ -41,9 +48,19 @@ The application runs on all [relevant platforms](https://github.com/dotnet/core/
 - Linux (Debian 9+, Mint, 18+, Ubuntu 18.04, RH 7+)
 - Mac (10.13+)
 
+# Prerequisites
+
+1. [Install the .NET 5.0 SDK](https://dotnet.microsoft.com/download/dotnet/5.0)
+2. Download [FFmpeg 4.2 binaries](https://ffbinaries.com/downloads) according to your OS/CPU and place it into the root folder.
+3. _Optional_ for Linux (copy function): `apt install -y xsel`
+4. _Optional_ for Linux (video playback): `apt install libvlc-dev`
+5. _Optional_ for Linux (video playback): `apt install vlc`
+6. _Optional_ for Linux (video playback): `apt install gtk-sharp2`
+7. _Optional_ for Linux (video playback): `apt install libx11-dev`
+
 # Compile + Run instructions
 
-[Install the .NET 5.0 SDK](https://dotnet.microsoft.com/download/dotnet/5.0) and switch to the root folder. Execute
+Switch to the root folder and execute
 
 1. `dotnet restore`
 2. `dotnet build`

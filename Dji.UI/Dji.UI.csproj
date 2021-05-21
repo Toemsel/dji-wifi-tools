@@ -21,6 +21,7 @@
     <PackageReference Include="TextCopy" Version="4.3.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Dji.Camera\Dji.Camera.csproj" />
     <ProjectReference Include="..\Dji.Network\Dji.Network.csproj" />
     <ProjectReference Include="..\Dji.Network.Packet\Dji.Network.Packet.csproj" />
   </ItemGroup>
@@ -30,6 +31,9 @@
     </Compile>
     <Compile Update="DjiWindow.axaml.cs">
       <DependentUpon>DjiWindow.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Styles\NetworkTrafficStyle.axaml.cs">
+      <DependentUpon>NetworkTrafficStyle.axaml</DependentUpon>
     </Compile>
     <Compile Update="View\Controls\Filters\NumericFilter.axaml.cs">
       <DependentUpon>NumericFilter.axaml</DependentUpon>
@@ -55,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <AvaloniaXaml Remove="Styles\FilterControlStyle.axaml" />
+    <AvaloniaXaml Remove="Styles\NetworkTrafficStyle.axaml" />
     <AvaloniaXaml Remove="Styles\OutOfBoundsStyle.axaml" />
     <AvaloniaXaml Remove="Styles\PoolInfoStyle.axaml" />
   </ItemGroup>
@@ -62,6 +67,7 @@
     <None Remove="Assets\Drone.ico" />
   </ItemGroup>
   <ItemGroup>
+    <AvaloniaResource Include="Styles\NetworkTrafficStyle.axaml" />
     <AvaloniaResource Include="Styles\FilterControlStyle.axaml" />
     <AvaloniaResource Include="Styles\OutOfBoundsStyle.axaml" />
     <AvaloniaResource Include="Styles\PoolInfoStyle.axaml" />

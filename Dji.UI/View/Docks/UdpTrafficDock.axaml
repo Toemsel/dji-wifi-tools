@@ -51,11 +51,7 @@
 
     </WrapPanel>
 
-    <DataGrid x:Name="grid" Items="{Binding NetworkPackets, Mode=OneWay}" Height="500"
-          GridLinesVisibility="All"
-          CanUserReorderColumns="True"
-          SelectionMode="Single"
-          IsReadOnly="True">
+    <DataGrid x:Name="grid">
       <DataGrid.Columns>
         <DataGridTextColumn Header="#" Binding="{Binding Id}" Width="80" />
         <DataGridTextColumn Header="f-size" Binding="{Binding Length}" Width="80" />

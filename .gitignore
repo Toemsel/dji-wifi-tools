@@ -10,3 +10,7 @@
 /Dji.Network.Packet/obj
 /Dji.UI/bin
 /Dji.UI/obj
+/Dji.UI/x64
+/Dji.Camera/bin/Debug/net5.0
+/Dji.Camera/obj/Debug/net5.0/Avalonia/original.dll
+/Dji.Camera/obj

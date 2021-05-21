@@ -1,20 +1,20 @@
-﻿using Dji.Network;
+﻿using Dji.Camera;
+using Dji.Network;
 using Dji.Network.Packet;
 using Dji.Network.Packet.DjiPackets.Base;
-using Dji.Network.Packet.DjiPackets.Drone;
 using Dji.UI.Extensions.Filesystem;
 using ReactiveUI;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Dji.UI.ViewModels
 {
     public class DjiContentViewModel : ReactiveObject
     {
-        private bool _isRecording;
+        private bool _isRecording = false;
+        private bool _isCameraReady = false;
 
         private static readonly Lazy<DjiContentViewModel> _singleton = new(() => new());
 
@@ -22,8 +22,7 @@ namespace Dji.UI.ViewModels
         private readonly DjiPacketResolver _dronePacketResolver = new DjiDronePacketResolver();
         private readonly DjiPacketPCapWriter _packetWriter = new();
         private readonly DjiPacketSniffer _packetSniffer = new();
-
-        private List<byte[]> data = new List<byte[]>();
+        private readonly DjiCamera _camera;
 
         private DjiContentViewModel()
         {
@@ -34,12 +33,9 @@ namespace Dji.UI.ViewModels
             _operatorPacketResolver.AddDjiPacketListener(packet => _packetWriter.Write(packet));
             _dronePacketResolver.AddDjiPacketListener(packet => _packetWriter.Write(packet));
 
-            _dronePacketResolver.AddDjiPacketListener<DjiNetworkPacket<DjiFramePacket>, DjiFramePacket>(frame => data.Add(frame.DjiPacket.FrameData));
-        }
-
-        public void Stuff()
-        {
-            File.WriteAllBytes(@"C:\Users\thoma\Downloads\test", data.SelectMany(s => s).ToArray());
+            // initialize a new DjiCamera which will listen for frame-updates
+            _camera = new DjiCamera(_dronePacketResolver as DjiDronePacketResolver);
+            _camera.CameraStateChanged += (cam, state) => IsCameraReady = state == CameraState.VideoAvailable;
         }
 
         private void NetworkPacketReceived(NetworkPacket networkPacket)
@@ -49,7 +45,7 @@ namespace Dji.UI.ViewModels
             else if (networkPacket.Participant == Participant.Operator)
                 _operatorPacketResolver.Feed(networkPacket);
             else throw new ArgumentException($"The provided {nameof(Participant)} " +
-                $"'{networkPacket.Participant.ToString()}' isn't valid");
+                $"'{networkPacket.Participant}' isn't valid");
         }
 
         public static DjiContentViewModel Instance => _singleton.Value;
@@ -66,6 +62,12 @@ namespace Dji.UI.ViewModels
         {
             get => _isRecording;
             private set => this.RaiseAndSetIfChanged(ref _isRecording, value);
+        }
+
+        public bool IsCameraReady
+        {
+            get => _isCameraReady;
+            set => this.RaiseAndSetIfChanged(ref _isCameraReady, value);
         }
 
         public async Task OpenSimulation()
@@ -97,6 +99,28 @@ namespace Dji.UI.ViewModels
         {
             PacketWriter.Disable();
             IsRecording = false;
+        }
+
+        public async Task ExportCameraFeed()
+        {
+            string targetFile = await FileDialog.SaveDialogAsync(DjiCamera.DEFAULT_VIDEO_FORMAT, 
+                DjiPacketPCapWriter.DEFAULT_FILE_NAME_FORMAT);
+
+            if (string.IsNullOrEmpty(targetFile))
+                return;
+
+            await _camera.ExportVideo(targetFile, DjiCamera.DEFAULT_VIDEO_FORMAT);
+        }
+
+        public void PlayCameraFeed(object sender, object param) => _ = PlayCameraFeed();
+
+        public async Task PlayCameraFeed()
+        {
+            string targetFile = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), 
+                $"djiCameraPlaybackTemp.{DjiCamera.DEFAULT_VIDEO_FORMAT}");
+
+            if (await _camera.ExportVideo(targetFile, DjiCamera.DEFAULT_VIDEO_FORMAT))
+                VideoPlayer.PlayVideo(targetFile);
         }
     }
 }

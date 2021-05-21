@@ -7,6 +7,7 @@
       <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
       <StyleInclude Source="avares://Dji.UI/Styles/FilterControlStyle.axaml" />
       <StyleInclude Source="avares://Dji.UI/Styles/OutOfBoundsStyle.axaml" />
+      <StyleInclude Source="avares://Dji.UI/Styles/NetworkTrafficStyle.axaml" />
     </Application.Styles>
   
 </Application>

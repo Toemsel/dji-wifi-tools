@@ -231,7 +231,7 @@ namespace Dji.Network
             for (int index = _captureDevices.Count - 1; index >= 0; index--)
                 ShutdownInterface(_captureDevices[index]);
 
-            _cancellationTokenSource.Cancel();
+            _cancellationTokenSource?.Cancel();
         }
 
         public void Dispose() => Forceshutdown();

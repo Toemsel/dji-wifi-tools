@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dji.Network.Packet", "Dji.N
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dji.Network", "Dji.Network\Dji.Network.csproj", "{BF1C150C-B16D-49A9-817F-1F6F3848E0A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dji.Dissector", "Dji.Dissector\Dji.Dissector.csproj", "{8E17C59D-E7CF-4524-B247-05A3AE2E6EB4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dji.Dissector", "Dji.Dissector\Dji.Dissector.csproj", "{8E17C59D-E7CF-4524-B247-05A3AE2E6EB4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dji.Camera", "Dji.Camera\Dji.Camera.csproj", "{9CF528C7-BB82-4F04-B8B5-B38FF9AB88B9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +71,18 @@ Global
 		{8E17C59D-E7CF-4524-B247-05A3AE2E6EB4}.Release|x64.Build.0 = Release|Any CPU
 		{8E17C59D-E7CF-4524-B247-05A3AE2E6EB4}.Release|x86.ActiveCfg = Release|Any CPU
 		{8E17C59D-E7CF-4524-B247-05A3AE2E6EB4}.Release|x86.Build.0 = Release|Any CPU
+		{9CF528C7-BB82-4F04-B8B5-B38FF9AB88B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CF528C7-BB82-4F04-B8B5-B38FF9AB88B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CF528C7-BB82-4F04-B8B5-B38FF9AB88B9}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9CF528C7-BB82-4F04-B8B5-B38FF9AB88B9}.Debug|x64.Build.0 = Debug|Any CPU
+		{9CF528C7-BB82-4F04-B8B5-B38FF9AB88B9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9CF528C7-BB82-4F04-B8B5-B38FF9AB88B9}.Debug|x86.Build.0 = Debug|Any CPU
+		{9CF528C7-BB82-4F04-B8B5-B38FF9AB88B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CF528C7-BB82-4F04-B8B5-B38FF9AB88B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CF528C7-BB82-4F04-B8B5-B38FF9AB88B9}.Release|x64.ActiveCfg = Release|Any CPU
+		{9CF528C7-BB82-4F04-B8B5-B38FF9AB88B9}.Release|x64.Build.0 = Release|Any CPU
+		{9CF528C7-BB82-4F04-B8B5-B38FF9AB88B9}.Release|x86.ActiveCfg = Release|Any CPU
+		{9CF528C7-BB82-4F04-B8B5-B38FF9AB88B9}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,6 +1,5 @@
-﻿using Avalonia.Controls;
-using ReactiveUI;
-using Avalonia;
+﻿using Avalonia;
+using Avalonia.Controls;
 using Dji.UI.Pooling;
 
 namespace Dji.UI.View.Docks

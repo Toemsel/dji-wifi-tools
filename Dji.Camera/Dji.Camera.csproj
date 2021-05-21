@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ApplicationIcon></ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="0.10.2" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.10.2" />
+    <PackageReference Include="Avalonia.Diagnostics" Version="0.10.2" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.2" />
+    <PackageReference Include="LibVLCSharp.Avalonia" Version="3.5.0" />
+    <PackageReference Include="ThomasLevesque.WeakEvent" Version="4.1.0" />
+    <PackageReference Include="VideoLAN.LibVLC.Mac" Version="3.1.3.1" />
+    <PackageReference Include="VideoLAN.LibVLC.Windows" Version="3.0.14" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Dji.Network.Packet\Dji.Network.Packet.csproj" />
+    <ProjectReference Include="..\Dji.Network\Dji.Network.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="FFMpegCore">
+      <HintPath>..\mods\FFMpegCore.dll</HintPath>
+    </Reference>
+    <Reference Include="Instances">
+      <HintPath>..\mods\Instances.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

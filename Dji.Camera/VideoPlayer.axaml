@@ -1,0 +1,14 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vlc="clr-namespace:LibVLCSharp.Avalonia;assembly=LibVLCSharp.Avalonia"
+        Icon="avares://Dji.UI/Assets/Drone.ico"
+        x:Class="Dji.Camera.VideoPlayer" Width="852" Height="480"
+        Title="h264 yuv420p 1280x720 30 fps 30 tbr 1200k tbn">
+
+  <vlc:VideoView IsEnabled="True" IsVisible="True" Width="852" Height="480"
+                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                 MediaPlayer="{Binding}" />
+  
+</Window>

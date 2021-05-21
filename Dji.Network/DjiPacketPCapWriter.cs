@@ -53,9 +53,7 @@ namespace Dji.Network
             string filename = string.IsNullOrEmpty(startValue) ? DateTime.Now.ToString(DEFAULT_FILE_NAME_FORMAT) : startValue;
 
             // if the extension is already present, get rid of it
-            var fileInfo = new FileInfo(filename);
-            if (!string.IsNullOrEmpty(fileInfo.Extension))
-                filename = Path.Combine(fileInfo.DirectoryName, Path.GetFileNameWithoutExtension(fileInfo.Name));
+            filename = filename.RemoveFileExtension();
 
             // concat the end value to the filename
             filename = $"{filename}{endValue}";

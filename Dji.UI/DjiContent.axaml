@@ -2,63 +2,77 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
              xmlns:converters="using:Dji.UI.Converters"
              xmlns:inspectors="using:Dji.UI.View.Controls.Inspectors"
              xmlns:statusBar="using:Dji.UI.View.StatusBar"
              xmlns:controls="using:Dji.UI.View.Controls"
+             xmlns:camera="using:Dji.Camera"
              xmlns:docks="using:Dji.UI.View.Docks"
              xmlns:viewModel="using:Dji.UI.ViewModels"
+             xmlns:video="using:Dji.UI.View.Controls"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="480"
              x:Class="Dji.UI.DjiContent">
 
-  <Grid>   
-    <Button Command="{Binding Stuff}" VerticalAlignment="Top" Margin="200, 0, 0, 0">Play</Button>
-    
-    <DockPanel LastChildFill="false">
+  <Grid RowDefinitions="Auto, *, Auto">
 
-      <Menu DockPanel.Dock="Top" HorizontalAlignment="Left">
-        <MenuItem Header="Menu">
-          <MenuItem Header="Simulation" Command="{Binding OpenSimulation}">
-            <MenuItem.Icon>
-              <Image Source="/Assets/Simulation.png" />
-            </MenuItem.Icon>
-          </MenuItem>
-          <MenuItem Header="REC">
-            <MenuItem.Icon>
-              <Image Source="/Assets/Recording.png" />
-            </MenuItem.Icon>
-            <MenuItem Header="Start Recording" IsEnabled="{Binding !IsRecording}" Command="{Binding StartRecording}" />
-            <MenuItem Header="Stop Recording" IsEnabled="{Binding IsRecording}" Command="{Binding StopRecording}" />
-          </MenuItem>
-        </MenuItem>
-      </Menu>
-
-      <Panel DockPanel.Dock="Bottom">
-        <TabControl>
-          <TabItem Header="Dji" IsSelected="{Binding #knownTrafficDock.IsSelected, Mode=TwoWay}">
-            <docks:DjiTrafficDock x:Name="knownTrafficDock" Classes="outOfBounds" />
-          </TabItem>
-          <TabItem Header="Empty" IsSelected="{Binding #emptyTrafficDock.IsSelected, Mode=TwoWay}">
-            <docks:DjiEmptyTrafficDock x:Name="emptyTrafficDock" Classes="outOfBounds" />
-          </TabItem>
-          <TabItem Header="UDP" IsSelected="{Binding #udpTrafficDock.IsSelected, Mode=TwoWay}">
-            <docks:UdpTrafficDock x:Name="udpTrafficDock" Classes="outOfBounds" />
-          </TabItem>
-        </TabControl>
-      </Panel>
-
-    </DockPanel>
-
-    <Grid HorizontalAlignment="Center" VerticalAlignment="Top">
-
-      <statusBar:DjiStatusBar  HorizontalAlignment="Center" />
-
+    <Grid Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top">
+      
+      <Image Source="/Assets/Camera.png" IsVisible="{Binding IsCameraReady}"
+             Width="32" Height="32" Margin="-212, 0, 0, 0">        
+        <i:Interaction.Behaviors>
+          <ia:EventTriggerBehavior EventName="PointerPressed" SourceObject="{Binding $parent[Image]}">
+            <ia:CallMethodAction TargetObject="{Binding}" MethodName="PlayCameraFeed"/>
+          </ia:EventTriggerBehavior>
+        </i:Interaction.Behaviors>
+      </Image>
+      
+      <statusBar:DjiStatusBar  HorizontalAlignment="Center" />     
+      
       <statusBar:RecordingIndicator
         IsVisible="{Binding IsRecording}"
         Width="48" Height="48"
         Margin="212, 0, 0, 0" />
-
+      
     </Grid>
+
+    <Menu Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top">
+      <MenuItem Header="Menu">
+        <MenuItem Header="Simulation" Command="{Binding OpenSimulation}">
+          <MenuItem.Icon>
+            <Image Source="/Assets/Simulation.png" />
+          </MenuItem.Icon>
+        </MenuItem>
+        <MenuItem Header="REC">
+          <MenuItem.Icon>
+            <Image Source="/Assets/Recording.png" />
+          </MenuItem.Icon>
+          <MenuItem Header="Start Recording" IsEnabled="{Binding !IsRecording}" Command="{Binding StartRecording}" />
+          <MenuItem Header="Stop Recording" IsEnabled="{Binding IsRecording}" Command="{Binding StopRecording}" />
+        </MenuItem>
+        <MenuItem Header="Camera" IsEnabled="{Binding IsCameraReady}">
+          <MenuItem.Icon>
+            <Image Source="/Assets/Camera_White.png" />
+          </MenuItem.Icon>
+          <MenuItem Header="Save Video" Command="{Binding ExportCameraFeed}" />
+          <MenuItem Header="Play Video" Command="{Binding PlayCameraFeed}" />
+        </MenuItem>
+      </MenuItem>
+    </Menu>
+
+    <TabControl Grid.Row="2" VerticalAlignment="Bottom">
+      <TabItem Header="Dji" IsSelected="{Binding #knownTrafficDock.IsSelected, Mode=TwoWay}">
+        <docks:DjiTrafficDock x:Name="knownTrafficDock" Classes="outOfBounds" />
+      </TabItem>
+      <TabItem Header="Empty" IsSelected="{Binding #emptyTrafficDock.IsSelected, Mode=TwoWay}">
+        <docks:DjiEmptyTrafficDock x:Name="emptyTrafficDock" Classes="outOfBounds" />
+      </TabItem>
+      <TabItem Header="UDP" IsSelected="{Binding #udpTrafficDock.IsSelected, Mode=TwoWay}">
+        <docks:UdpTrafficDock x:Name="udpTrafficDock" Classes="outOfBounds" />
+      </TabItem>
+    </TabControl>
+
   </Grid>
 
 </UserControl>

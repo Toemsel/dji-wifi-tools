@@ -19,9 +19,11 @@ This repo contains a set of tools to facilitate the analysis of the Dji wifi com
   - [ ] Rotate
   - [ ] Elevate
 
-# Screenshot
+# Screenshots
 
 ![Screenshot](https://www.indie-dev.at/wp-content/uploads/2021/05/Screenshot.png "Simulation replay and packet comparison")
+
+![Screenshot](https://www.indie-dev.at/wp-content/uploads/2021/05/VideoPlayback.png "Camera Playback")
 
 # Supported Drones
 

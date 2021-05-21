@@ -55,8 +55,10 @@ The application runs on all [relevant platforms](https://github.com/dotnet/core/
 3. _Optional_ for Linux (copy function): `apt install -y xsel`
 4. _Optional_ for Linux (video playback): `apt install libvlc-dev`
 5. _Optional_ for Linux (video playback): `apt install vlc`
-6. _Optional_ for Linux (video playback): `apt install gtk-sharp2`
-7. _Optional_ for Linux (video playback): `apt install libx11-dev`
+6. _Optional_** for Linux (video playback): `apt install gtk-sharp2`
+7. _Optional_** for Linux (video playback): `apt install libx11-dev`
+
+** install when step 4-5 don't enable dji-camera output rendering
 
 # Compile + Run instructions
 

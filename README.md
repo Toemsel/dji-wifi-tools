@@ -60,7 +60,7 @@ The application runs on all [relevant platforms](https://github.com/dotnet/core/
 
 ** install when step 4-5 don't enable dji-camera output rendering
 
-# Compile + Run instructions
+# Compile + Run Instructions
 
 Switch to the root folder and execute
 
@@ -69,6 +69,10 @@ Switch to the root folder and execute
 3. `dotnet run --project Dji.Ui`
 
 Project configurations for Visual Studio 2019 and Visual Studio Code are included.
+
+# Release Instructions
+
+For the most easy setup download the latest release and execute `dotnet Dji.UI.dll`.
 
 # Usage Instructions
 

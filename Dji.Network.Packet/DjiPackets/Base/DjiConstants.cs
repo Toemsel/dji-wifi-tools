@@ -1937,10 +1937,29 @@ namespace Dji.Network.Packet.DjiPackets.Base
         // https://github.com/o-gs/dji-firmware-tools/blob/05e24cb12803943f63ac5ae1574e517e59a2dd0a/comm_dissector/wireshark/dji-dumlv1-proto.lua#L486
 
         // error-correction
-        [Cmd(3849, 0x11, "0x11", 0x14, "0x14")]
-        UNKNOWN_UNKNOWN_1 = 0x1114,
-        [Cmd(3849, 0x11, "0x11", 0x08, "0x08")]
-        UNKNOWN_UNKNOWN_2 = 0x1108,
+        // https://github.com/district-michael/fpv_live/blob/4c7bb40e5cc5daec67b39cc093235afb959a4bfe/src/main/java/dji/midware/data/config/P3/CmdIdADS_B.java#L17
+        [Cmd(4354, 0x11, "ADSB", 0x02, "GetPushData")]
+        ADSB_GetPushData = 0x1102,
+        [Cmd(4360, 0x11, "ADSB", 0x08, "GetPushWarning")]
+        ADSB_GetPushWarning = 0x1108,
+        [Cmd(4361, 0x11, "ADSB", 0x09, "GetPushOriginal")]
+        ADSB_GetPushOriginal = 0x1109,
+        [Cmd(4368, 0x11, "ADSB", 0x10, "SendWhiteList")]
+        ADSB_SendWhiteList = 0x1110,
+        [Cmd(4369, 0x11, "ADSB", 0x11, "RequestLicense")]
+        ADSB_RequestLicense = 0x1111,
+        [Cmd(4370, 0x11, "ADSB", 0x12, "SetLicenseEnabled")]
+        ADSB_SetLicenseEnabled = 0x1112,
+        [Cmd(4371, 0x11, "ADSB", 0x13, "GetLicenseId")]
+        ADSB_GetLicenseId = 0x1113,
+        [Cmd(4372, 0x11, "ADSB", 0x14, "GetPushUnlockInfo")]
+        ADSB_GetPushUnlockInfo = 0x1114,
+        [Cmd(4373, 0x11, "ADSB", 0x15, "SetUserId")]
+        ADSB_SetUserId = 0x1115,
+        [Cmd(4374, 0x11, "ADSB", 0x16, "GetKeyVersion")]
+        ADSB_GetKeyVersion = 0x1116,
+        [Cmd(4375, 0x11, "ADSB", 0x17, "GetPushAvoidanceAction")]
+        ADSB_GetPushAvoidanceAction = 0x1117,
     }
 
     public enum Participant

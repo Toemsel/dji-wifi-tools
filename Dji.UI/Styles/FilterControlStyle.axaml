@@ -2,6 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:control="using:Dji.UI.View.Controls.Filters"
+             xmlns:font="using:Avalonia.Media"
              xmlns:sys="clr-namespace:System;assembly=netstandard"
              x:Class="Dji.UI.Styles.FilterControlStyle">
 
@@ -9,6 +10,7 @@
     <Thickness x:Key="FilterControlMargin">0, 5, 15, 5</Thickness>
     <Thickness x:Key="FilterStackpanelMargin">0, 15, 0, 15</Thickness>
     <Thickness x:Key="FilterElementMargin">0, 0, 10, 0</Thickness>
+    <font:FontFamily x:Key="FilterFontFamily">Consolas</font:FontFamily>
   </Styles.Resources>
 
   <Style Selector=":is(control|FilterControl)">
@@ -35,7 +37,7 @@
     <Setter Property="VerticalAlignment" Value="Center" />
     <Setter Property="IsTextSearchEnabled" Value="True" />
     <Setter Property="PlaceholderForeground" Value="{DynamicResource SystemControlPageTextBaseMediumBrush}" />
-    <Setter Property="FontFamily" Value="Consolas" />
+    <Setter Property="FontFamily" Value="{StaticResource FilterFontFamily}" />
     <Setter Property="Width" Value="140" />
     <Setter Property="Margin" Value="{DynamicResource FilterElementMargin}" />
   </Style>
@@ -45,7 +47,7 @@
   </Style>
 
   <Style Selector="TextBox.filterElement">
-    <Setter Property="FontFamily" Value="Consolas" />
+    <Setter Property="FontFamily" Value="{StaticResource FilterFontFamily}" />
   </Style>
 
   <Style Selector="TextBox.filterElement.extra-large">

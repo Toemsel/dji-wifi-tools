@@ -51,12 +51,10 @@
           <MenuItem Header="Start Recording" IsEnabled="{Binding !IsRecording}" Command="{Binding StartRecording}" />
           <MenuItem Header="Stop Recording" IsEnabled="{Binding IsRecording}" Command="{Binding StopRecording}" />
         </MenuItem>
-        <MenuItem Header="Camera" IsEnabled="{Binding IsCameraReady}">
+        <MenuItem Header="Save Video" IsEnabled="{Binding IsCameraReady}" Command="{Binding ExportCameraFeed}">
           <MenuItem.Icon>
             <Image Source="/Assets/Camera_White.png" />
           </MenuItem.Icon>
-          <MenuItem Header="Save Video" Command="{Binding ExportCameraFeed}" />
-          <MenuItem Header="Play Video" Command="{Binding PlayCameraFeed}" />
         </MenuItem>
       </MenuItem>
     </Menu>

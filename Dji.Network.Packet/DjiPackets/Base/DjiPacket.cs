@@ -121,9 +121,9 @@ namespace Dji.Network.Packet.DjiPackets.Base
                     offSet = (byte)(data[0x1C] << 1);
                     pos = 0x20;
                     break;
-                case WhType.OperatorCmd2:
                 case WhType.DroneImgFrame:
                 case WhType.DroneCmd2:
+                case WhType.OperatorCmd2:
                     pos = 0x14;
                     break;
                 case WhType.OperatorCmd1:

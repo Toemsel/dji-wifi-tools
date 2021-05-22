@@ -49,6 +49,8 @@
           <filterViewModels:UdpPayloadLengthFilterViewModel />
         </filters:NumericFilter.DataContext>
       </filters:NumericFilter>
+      
+      <filters:CommandFilter DjiNetworkPacketPool="{Binding $parent[UserControl].DataContext}" />
 
     </WrapPanel>
 

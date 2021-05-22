@@ -1,0 +1,23 @@
+<FilterControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:model="clr-namespace:Dji.UI.ViewModels.Controls.Filters;assembly=Dji.UI"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Dji.UI.View.Controls.Filters.CommandFilter">
+
+  <FilterControl.DataContext>
+    <model:CommandFilterViewModel />
+  </FilterControl.DataContext>
+
+  <StackPanel Orientation="Horizontal">
+    <Image Classes="filterElement" Source="/Assets/Cmd.png" />
+    <ComboBox Classes="filterElement" PlaceholderText="src module" Items="{Binding Transceivers}" SelectedIndex="{Binding SrcModuleSelectionIndex}" />
+    <ComboBox Classes="filterElement" PlaceholderText="dest module" Items="{Binding Transceivers}" SelectedIndex="{Binding DestModuleSelectionIndex}" />
+    <ComboBox Classes="filterElement" PlaceholderText="comm" Items="{Binding Comms}" SelectedIndex="{Binding CommsSelectionIndex}" />
+    <ComboBox Classes="filterElement" PlaceholderText="cmdSet" Items="{Binding CmdSet}" SelectedIndex="{Binding CmdSetSelectionIndex}" />
+    <ComboBox Classes="filterElement" PlaceholderText="cmd" Items="{Binding Cmd}" SelectedIndex="{Binding CmdSelectionIndex}" />
+    <ComboBox Classes="filterElement lastElement" PlaceholderText="ack" Items="{Binding Acks}" SelectedIndex="{Binding AcksSelectionIndex}" />
+  </StackPanel>
+  
+</FilterControl>

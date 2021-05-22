@@ -15,6 +15,7 @@ namespace Dji.UI.ViewModels
     {
         private bool _isRecording = false;
         private bool _isCameraReady = false;
+        private bool _isExportingForHotReplay = false;
 
         private static readonly Lazy<DjiContentViewModel> _singleton = new(() => new());
 
@@ -116,11 +117,22 @@ namespace Dji.UI.ViewModels
 
         public async Task PlayCameraFeed()
         {
+            // avoid parsing the camera-feed several times concurrently
+            if (_isExportingForHotReplay) return;
+
+            _isExportingForHotReplay = true;
+
             string targetFile = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), 
                 $"djiCameraPlaybackTemp.{DjiCamera.DEFAULT_VIDEO_FORMAT}");
 
             if (await _camera.ExportVideo(targetFile, DjiCamera.DEFAULT_VIDEO_FORMAT))
                 VideoPlayer.PlayVideo(targetFile);
+
+            // upon an exception the feed won't work anymore. However,
+            // a exception indicates that libvlc isn't available or has issues.
+            // thus, any future conversion will fail as well. Hence, it is
+            // perfectly fine that we don't re-enable the play-camera-feed
+            _isExportingForHotReplay = false;
         }
     }
 }

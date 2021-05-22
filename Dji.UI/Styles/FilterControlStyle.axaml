@@ -31,6 +31,19 @@
     <Setter Property="VerticalAlignment" Value="Center" />
   </Style>
 
+  <Style Selector="ComboBox.filterElement">
+    <Setter Property="VerticalAlignment" Value="Center" />
+    <Setter Property="IsTextSearchEnabled" Value="True" />
+    <Setter Property="PlaceholderForeground" Value="{DynamicResource SystemControlPageTextBaseMediumBrush}" />
+    <Setter Property="FontFamily" Value="Consolas" />
+    <Setter Property="Width" Value="140" />
+    <Setter Property="Margin" Value="{DynamicResource FilterElementMargin}" />
+  </Style>
+
+  <Style Selector="ComboBox.filterElement.lastElement">
+    <Setter Property="Margin" Value="0" />
+  </Style>
+
   <Style Selector="TextBox.filterElement">
     <Setter Property="FontFamily" Value="Consolas" />
   </Style>

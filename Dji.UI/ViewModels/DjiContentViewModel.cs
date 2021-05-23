@@ -13,6 +13,7 @@ namespace Dji.UI.ViewModels
 {
     public class DjiContentViewModel : ReactiveObject
     {
+        private DjiCamera _camera;
         private bool _isRecording = false;
         private bool _isCameraReady = false;
         private bool _isExportingForHotReplay = false;
@@ -23,9 +24,8 @@ namespace Dji.UI.ViewModels
         private readonly DjiPacketResolver _dronePacketResolver = new DjiDronePacketResolver();
         private readonly DjiPacketPCapWriter _packetWriter = new();
         private readonly DjiPacketSniffer _packetSniffer = new();
-        private readonly DjiCamera _camera;
 
-        private DjiContentViewModel()
+        internal void OnApplicationEnter()
         {
             // connect the Dji network-related parts
             _packetSniffer.NetworkPacketReceived += (obj, data) => _packetWriter.Write(data);
@@ -38,6 +38,8 @@ namespace Dji.UI.ViewModels
             _camera = new DjiCamera(_dronePacketResolver as DjiDronePacketResolver);
             _camera.CameraStateChanged += (cam, state) => IsCameraReady = state == CameraState.VideoAvailable;
         }
+
+        internal void OnApplicationExit() => _packetSniffer?.Forceshutdown();
 
         private void NetworkPacketReceived(NetworkPacket networkPacket)
         {

@@ -10,18 +10,14 @@ namespace Dji.UI
     {
         private static Lazy<DjiWindow> _singleton = new Lazy<DjiWindow>(() => new());
 
-        public DjiWindow()
-        {
-            InitializeComponent();
-#if DEBUG
-            this.AttachDevTools();
-#endif
-        }
+        public DjiWindow() => InitializeComponent();
 
         public static DjiWindow Instance => _singleton.Value;
 
         private void InitializeComponent() => AvaloniaXamlLoader.Load(this);
 
-        protected override void OnClosed(EventArgs e) => DjiContentViewModel.Instance.PacketSniffer.Forceshutdown();
+        protected override void OnOpened(EventArgs e) => DjiContentViewModel.Instance.OnApplicationEnter();
+
+        protected override void OnClosed(EventArgs e) => DjiContentViewModel.Instance.OnApplicationExit();
     }
 }

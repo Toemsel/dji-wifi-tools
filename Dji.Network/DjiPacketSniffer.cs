@@ -53,9 +53,6 @@ namespace Dji.Network
 
         private async Task ListenOnAllInterfaces()
         {
-            // wait for the UI to catch up
-            await Task.Delay(5000);
-
             // start the packet-delivery thread, which is responsible
             // for the actual drone/operator packet delivery
             _cancellationTokenSource = new CancellationTokenSource();

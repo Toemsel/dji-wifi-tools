@@ -27,7 +27,7 @@ namespace Dji.UI.ViewModels.Controls.Filters
 
         public CommandFilterViewModel()
         {
-            void PopulateCollection<T>(ref List<string> collection, Func<string, string> selector = null) where T : Enum
+            void PopulateCollection<T>(ref List<string> collection, Func<string, string> selector = null, Func<string, bool> validation = null) where T : Enum
             {
                 collection = new List<string>();
                 // default selection = no filter
@@ -35,6 +35,7 @@ namespace Dji.UI.ViewModels.Controls.Filters
 
                 foreach (string enumVal in Enum.GetNames(typeof(T)))
                 {
+                    if (!validation?.Invoke(enumVal) ?? false) continue;
                     string selectorVal = selector?.Invoke(enumVal) ?? enumVal;
                     if (collection.Contains(selectorVal)) continue;
                     else collection.Add(selectorVal);
@@ -45,7 +46,6 @@ namespace Dji.UI.ViewModels.Controls.Filters
 
             PopulateCollection<Transceiver>(ref _transceivers);
             PopulateCollection<Cmd>(ref _cmdSet, cmd => CmdAttribute.TryGetAttribute(Enum.Parse<Cmd>(cmd)).CmdSetDescription);
-            PopulateCollection<Cmd>(ref _cmd, cmd => CmdAttribute.TryGetAttribute(Enum.Parse<Cmd>(cmd)).CmdDescription);
             PopulateCollection<Comms>(ref _comms);
             PopulateCollection<Ack>(ref _acks);
 
@@ -62,6 +62,19 @@ namespace Dji.UI.ViewModels.Controls.Filters
             this.WhenAnyValue(instance => instance.CmdSelectionIndex).Subscribe(idx => DjiNetworkPacketPool?.EvaluateFilterOnPackets());
             this.WhenAnyValue(instance => instance.CommsSelectionIndex).Subscribe(idx => DjiNetworkPacketPool?.EvaluateFilterOnPackets());
             this.WhenAnyValue(instance => instance.AcksSelectionIndex).Subscribe(idx => DjiNetworkPacketPool?.EvaluateFilterOnPackets());
+
+            // restrict the cmd based on the cmdSet
+            this.WhenAnyValue(instance => instance.CmdSetSelectionIndex).Subscribe(idx =>
+            {
+                if (SubscriptionBuilder(idx, ref _cmdSet) == null) return;
+
+                CmdAttribute GetAttributeByName(string name) => CmdAttribute.TryGetAttribute(Enum.Parse<Cmd>(name));
+
+                PopulateCollection<Cmd>(ref _cmd, cmd => GetAttributeByName(cmd).CmdDescription, 
+                    cmd => GetAttributeByName(cmd).CmdSetDescription == _cmdSet[idx.Value]);
+
+                this.RaisePropertyChanged(nameof(Cmd));
+            });
         }
 
         protected override Expression<Func<NetworkPacket, bool>> FilterExpression => (networkPacket) =>

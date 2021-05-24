@@ -78,15 +78,15 @@ For the most easy setup download the latest release and execute `dotnet Dji.UI.d
 
 If you do require any usage instructions, maybe this tool isn't meant for you.
 
+# Credits
+
+Based on [OG's firmware-tools](https://github.com/o-gs/dji-firmware-tools)
+
 # Libraries
 
 [Avalonia](https://github.com/AvaloniaUI/Avalonia)  
 [FFMpegCore](https://github.com/rosenbjerg/FFMpegCore)  
 [libvlcsharp](https://github.com/videolan/libvlcsharp)
-
-# Credits
-
-Based on [OG's firmware-tools](https://github.com/o-gs/dji-firmware-tools)
 
 # Support
 

@@ -78,10 +78,6 @@ For the most easy setup download the latest release and execute `dotnet Dji.UI.d
 
 If you do require any usage instructions, maybe this tool isn't meant for you.
 
-# Support
-
-[Buy me a coffee ☕](https://www.buymeacoffee.com/yoghurt)
-
 # Libraries
 
 [Avalonia](https://github.com/AvaloniaUI/Avalonia)  
@@ -91,3 +87,7 @@ If you do require any usage instructions, maybe this tool isn't meant for you.
 # Credits
 
 Based on [OG's firmware-tools](https://github.com/o-gs/dji-firmware-tools)
+
+# Support
+
+[Buy me a coffee ☕](https://www.buymeacoffee.com/yoghurt)

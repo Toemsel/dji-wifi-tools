@@ -82,6 +82,12 @@ If you do require any usage instructions, maybe this tool isn't meant for you.
 
 [Buy me a coffee ☕](https://www.buymeacoffee.com/yoghurt)
 
+# Libraries
+
+[Avalonia](https://github.com/AvaloniaUI/Avalonia)  
+[FFMpegCore](https://github.com/rosenbjerg/FFMpegCore)  
+[libvlcsharp](https://github.com/videolan/libvlcsharp)
+
 # Credits
 
 Based on [OG's firmware-tools](https://github.com/o-gs/dji-firmware-tools)

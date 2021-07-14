@@ -29,7 +29,7 @@ This repo contains a set of tools to facilitate the analysis of the Dji wifi com
 
 - [x] Mavic Pro 1
 - [x] Phantom 3
-- [x] Phantom 4
+- [x] Phantom 4 Pro
 
 ### Theoretical support
 

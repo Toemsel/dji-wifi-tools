@@ -12,12 +12,6 @@ This repo contains a set of tools to facilitate the analysis of the Dji wifi com
 - [x] Import *.pcap
 - [x] Export as [DUML](https://github.com/o-gs/dji-firmware-tools/tree/master/comm_dissector) for further in-depth analysis
 - [x] Camera output rendering
-- [ ] Self-contained drone control
-  - [ ] Takeoff
-  - [ ] Landing
-  - [ ] Accelerate
-  - [ ] Rotate
-  - [ ] Elevate
 
 # Screenshots
 

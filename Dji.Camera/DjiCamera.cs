@@ -16,7 +16,7 @@ namespace Dji.Camera
     public class DjiCamera : IDisposable
     {
         private static string BUFFER_PREFIX = $"_{nameof(DjiCamera)}";
-        public const string DEFAULT_VIDEO_FORMAT = "avi";
+        public const string DEFAULT_VIDEO_FORMAT = "mp4";
 
         private readonly WeakEventSource<CameraState> _cameraStateChanged = new WeakEventSource<CameraState>();
         private readonly DjiDronePacketResolver _dronePackets;

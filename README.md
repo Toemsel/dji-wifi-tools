@@ -81,6 +81,8 @@ Based on [OG's firmware-tools](https://github.com/o-gs/dji-firmware-tools)
 [Avalonia](https://github.com/AvaloniaUI/Avalonia)  
 [FFMpegCore](https://github.com/rosenbjerg/FFMpegCore)  
 [libvlcsharp](https://github.com/videolan/libvlcsharp)
+[Pcap.Net](https://github.com/PcapDotNet/Pcap.Net)
+[SharpPcap](https://github.com/chmorgan/sharppcap)
 
 # Support
 

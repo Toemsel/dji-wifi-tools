@@ -15,9 +15,9 @@ This repo contains a set of tools to facilitate the analysis of the Dji wifi com
 
 # Screenshots
 
-![Screenshot](https://www.indie-dev.at/resource/Screenshot.png "Simulation replay and packet comparison")
+![Screenshot](https://www.push-force.dev/resource/Screenshot.png "Simulation replay and packet comparison")
 
-![Screenshot](https://www.indie-dev.at/resource/VideoPlayback.png "Camera Playback")
+![Screenshot](https://www.push-force.dev/resource/VideoPlayback.png "Camera Playback")
 
 # Supported Drones
 
